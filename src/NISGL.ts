@@ -1,5 +1,6 @@
 import { NISGLShader } from './NISGLShader';
 import { NISGLProgram } from './NISGLProgram';
+import { NISGLBuffer } from './NISGLBuffer';
 
 export class NISGL {
   private _message = new Error('Exeption Error');
@@ -47,6 +48,18 @@ export class NISGL {
     }
 
     return new NISGLProgram(this, program);
+  }
+
+  public createBuffer() {
+    const gl = this._gl;
+    const buffer = gl.createBuffer();
+
+    if (buffer === null) {
+      this.emitMessage(this._message);
+      return null;
+    }
+
+    return new NISGLBuffer(this, buffer);
   }
 
   /**
