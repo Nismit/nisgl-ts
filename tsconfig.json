@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [ "dom", "es2018" ],
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noUnusedLocals": true,
+    "declaration": true,
+    "declarationDir": "./types",
+  },
+  "include": [ "src" ],
+  "exclude": [ "node_modules", "tests/**/*.ts" ]
+}
