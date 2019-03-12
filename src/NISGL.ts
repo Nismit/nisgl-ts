@@ -50,6 +50,10 @@ export class NISGL {
     return new NISGLProgram(this, program);
   }
 
+  /**
+   * Create buffer instance
+   * @returns {NISGLBuffer|null} Buffer object
+   */
   public createBuffer() {
     const gl = this._gl;
     const buffer = gl.createBuffer();
@@ -63,8 +67,8 @@ export class NISGL {
   }
 
   /**
-   * 
-   * @param error 
+   * Emit Error Message
+   * @param error {Error|string|null} Error Message
    */
   public emitMessage(error?: Error | string | null) {
     if (typeof error === 'string') {
