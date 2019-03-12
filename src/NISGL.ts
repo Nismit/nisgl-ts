@@ -22,7 +22,7 @@ export class NISGL {
    * @param {number} type gl.VERTEX_SHADER | gl.FRAGMENT_SHADER
    * @return {NISGLShader} Shader object
    */
-  public createShader(type: number) {
+  public createShader(type: number): NISGLShader | null {
     const gl = this._gl;
     const shader = gl.createShader(type);
 
@@ -38,7 +38,7 @@ export class NISGL {
    * Create program instance
    * @returns {NISGLProgram|null} Program object
    */
-  public createProgram() {
+  public createProgram(): NISGLProgram | null {
     const gl = this._gl;
     const program = gl.createProgram();
 
@@ -54,7 +54,7 @@ export class NISGL {
    * Create buffer instance
    * @returns {NISGLBuffer|null} Buffer object
    */
-  public createBuffer() {
+  public createBuffer(): NISGLBuffer | null {
     const gl = this._gl;
     const buffer = gl.createBuffer();
 
@@ -70,7 +70,7 @@ export class NISGL {
    * Emit Error Message
    * @param error {Error|string|null} Error Message
    */
-  public emitMessage(error?: Error | string | null) {
+  public emitMessage(error?: Error | string | null): Error {
     if (typeof error === 'string') {
       throw new Error(error);
     } else if (error) {
