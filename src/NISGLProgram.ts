@@ -11,11 +11,11 @@ export class NISGLProgram {
     this._program = program;
   }
 
-  public getProgram() {
+  public getProgram(): WebGLProgram {
     return this._program;
   }
 
-  public useProgram() {
+  public useProgram(): void {
     const gl = this._gl.getGLContext();
 
     if (this._linked) {
