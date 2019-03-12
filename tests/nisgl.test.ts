@@ -1,5 +1,6 @@
 import WebGLContext from "gl";
 import { NISGL } from "../src/NISGL";
+import { NISGLShader } from "../src/NISGLShader";
 
 describe('NISGL', () => {
   let gl: WebGLRenderingContext;
@@ -19,5 +20,12 @@ describe('NISGL', () => {
     expect(() => {
       nisGL.createShader(32);
     }).toThrowError();
+  });
+
+  it('Create shader instance', () => {
+    nisGL = new NISGL(gl);
+    expect(() => {
+      return nisGL.createShader(nisGL.getGLContext().FRAGMENT_SHADER);
+    }).toBeInstanceOf(NISGLShader);
   })
 })
