@@ -10,7 +10,7 @@ export class NISGLBuffer {
     this._buffer = buffer;
   }
 
-  public getBuffer() {
+  public getBuffer(): WebGLBuffer {
     return this._buffer;
   }
 
