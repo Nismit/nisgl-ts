@@ -68,6 +68,27 @@ export class NISGL {
   }
 
   /**
+   * Initalize canvas
+   * @param r {number} Red Color Value
+   * @param g {number} Green Color Value
+   * @param b {number} Blue Color Value
+   * @param a {number} Alpha Color Value
+   * @param depth {number} Depath
+   */
+  public clear(
+    r: number = 0.0,
+    g: number = 0.0,
+    b: number = 0.0,
+    a: number = 1.0,
+    depth: number = 1.0
+  ): void {
+    const gl = this._gl;
+    gl.clearColor(r, g, b, a);
+    gl.clearDepth(depth);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  }
+
+  /**
    * Emit Error Message
    * @param error {Error|string|null} Error Message
    */
