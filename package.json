@@ -4,6 +4,7 @@
   "description": "WebGL Base Library with TypeScript",
   "main": "index.js",
   "scripts": {
+    "build-js": "webpack --mode production",
     "test": "jest"
   },
   "keywords": [
