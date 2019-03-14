@@ -27,6 +27,15 @@ export declare class NISGL {
      */
     createBuffer(): NISGLBuffer | null;
     /**
+     * Initalize canvas
+     * @param r {number} Red Color Value
+     * @param g {number} Green Color Value
+     * @param b {number} Blue Color Value
+     * @param a {number} Alpha Color Value
+     * @param depth {number} Depath
+     */
+    clear(r?: number, g?: number, b?: number, a?: number, depth?: number): void;
+    /**
      * Emit Error Message
      * @param error {Error|string|null} Error Message
      */
