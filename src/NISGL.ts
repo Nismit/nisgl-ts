@@ -11,7 +11,8 @@ export class NISGL {
   }
 
   /**
-   * @return {WebGLRenderingContext} Returns WebGL Context
+   * Get rendering context
+   * @return {WebGLRenderingContext}
    */
   public getGLContext(): WebGLRenderingContext {
     return this._gl;
