@@ -33,10 +33,10 @@ export class NISGLAttribute {
   public vertexAttributePointer(
     index: GLint,
     size: GLint,
-    type: number,
-    normalized: boolean,
-    stride: number,
-    offset: number
+    type: number = GL_CONST.FLOAT,
+    normalized: boolean = false,
+    stride: number = 0,
+    offset: number = 0
   ) {
     const gl = this._gl.getGLContext();
     if (this._isEnabled) {
