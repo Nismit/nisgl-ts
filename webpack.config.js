@@ -1,15 +1,16 @@
 const path = require('path')
 
 module.exports = (env, argv) => ({
-  entry: { 
+  entry: {
     'nisgl-ts': './src/index.ts'
-  }, 
+  },
   output: {
     filename: '[name].js',
     path: path.join(__dirname, 'dist')
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.resolve(__dirname),
+    publicPath: '/dist/',
     openPage: 'tests/index.html',
     compress: true,
     port: 8080
@@ -28,7 +29,7 @@ module.exports = (env, argv) => ({
     ]
   },
   resolve: {
-    extensions: ['.ts','.js']
+    extensions: ['.ts', '.js']
   },
   plugins: [
     // new HtmlWebpackPlugin({
