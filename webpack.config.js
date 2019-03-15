@@ -6,7 +6,10 @@ module.exports = (env, argv) => ({
   },
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, 'dist'),
+    library: 'NISGL',
+    libraryTarget: 'umd',
+    globalObject: 'this'
   },
   devServer: {
     contentBase: path.resolve(__dirname),
