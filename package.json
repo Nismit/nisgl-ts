@@ -2,10 +2,13 @@
   "name": "nisgl-ts",
   "version": "0.0.1",
   "description": "WebGL Base Library with TypeScript",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "dev": "webpack-dev-server --mode development",
-    "build-js": "webpack --mode production",
+    "build:js": "webpack --mode production",
+    "build:ts": "tsc --emitDeclarationOnly",
+    "build": "npm run build:js && npm run build:ts",
     "test": "jest"
   },
   "keywords": [
