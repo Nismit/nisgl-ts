@@ -2,7 +2,8 @@ const path = require('path')
 
 module.exports = (env, argv) => ({
   entry: {
-    'nisgl-ts': './src/index.ts'
+    'nisgl-ts': './src/index.ts',
+    '../example/bundle': './example/example.js'
   },
   output: {
     filename: '[name].js',
@@ -13,10 +14,10 @@ module.exports = (env, argv) => ({
   },
   devServer: {
     contentBase: path.resolve(__dirname),
-    publicPath: '/dist/',
-    openPage: 'tests/index.html',
-    compress: true,
-    port: 8080
+    publicPath: '/example/',
+    openPage: 'example/index.html',
+    port: 8080,
+    open: true
   },
   module: {
     rules: [
