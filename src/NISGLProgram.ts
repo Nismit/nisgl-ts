@@ -11,6 +11,10 @@ export class NISGLProgram {
     this._program = program;
   }
 
+  public deleteProgram(): void {
+    this._gl.getGLContext().deleteProgram(this._program);
+  }
+
   public getProgram(): WebGLProgram {
     return this._program;
   }
