@@ -14,7 +14,11 @@ export class NISGLBuffer {
     return this._buffer;
   }
 
-  public createVertexBufferObject(type: number = GL_CONST.ARRAY_BUFFER, source: ArrayBuffer | ArrayBufferView, usage: number = GL_CONST.STATIC_DRAW): void {
+  public bindBuffer(
+    type: number = GL_CONST.ARRAY_BUFFER,
+    source: ArrayBuffer | ArrayBufferView,
+    usage: number = GL_CONST.STATIC_DRAW
+  ): void {
     const gl = this._gl.getGLContext();
     gl.bindBuffer(type, this.getBuffer());
     gl.bufferData(type, source, usage);
