@@ -41,4 +41,10 @@ export class NISGLProgram {
       return;
     }
   }
+
+  public getUniformLocation(name: string) {
+    const gl = this._gl.getGLContext();
+
+    return gl.getUniformLocation(this._program, name);
+  }
 }
