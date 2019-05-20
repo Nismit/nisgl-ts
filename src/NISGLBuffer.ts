@@ -14,14 +14,23 @@ export class NISGLBuffer {
     return this._buffer;
   }
 
-  public bindBuffer(
-    type: number = GL_CONST.ARRAY_BUFFER,
+  public createVertexPosition(
     source: ArrayBuffer | ArrayBufferView,
     usage: number = GL_CONST.STATIC_DRAW
   ): void {
     const gl = this._gl.getGLContext();
-    gl.bindBuffer(type, this.getBuffer());
-    gl.bufferData(type, source, usage);
-    gl.bindBuffer(type, null);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.getBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, source, usage);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+  }
+
+  public createVertexIndex(
+    source: ArrayBuffer | ArrayBufferView,
+    usage: number = GL_CONST.STATIC_DRAW
+  ): void {
+    const gl = this._gl.getGLContext();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.getBuffer());
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, source, usage);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
   }
 }
