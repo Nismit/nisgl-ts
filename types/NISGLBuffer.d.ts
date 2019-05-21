@@ -4,6 +4,6 @@ export declare class NISGLBuffer {
     private _buffer;
     constructor(gl: NISGL, buffer: WebGLBuffer);
     getBuffer(): WebGLBuffer;
-    createVertexBufferObject(source: ArrayBuffer | ArrayBufferView, usage?: number): void;
-    createIndexBufferObject(source: ArrayBuffer | ArrayBufferView, usage?: number): void;
+    createVertexPosition(source: ArrayBuffer | ArrayBufferView, usage?: number): void;
+    createVertexIndex(source: ArrayBuffer | ArrayBufferView, usage?: number): void;
 }
