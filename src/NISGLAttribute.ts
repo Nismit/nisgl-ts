@@ -5,7 +5,7 @@ import { NISGLProgram } from "./NISGLProgram";
 export class NISGLAttribute {
   private _gl: NISGL;
   private _program: NISGLProgram;
-  private _isEnabled: boolean = false;;
+  private _isEnabled: boolean = false;
 
   constructor(gl: NISGL, program: NISGLProgram) {
     this._gl = gl;
