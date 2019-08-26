@@ -1,6 +1,6 @@
 import GL_CONST from './constants';
-import { NISGL } from "./NISGL";
-import { NISGLProgram } from "./NISGLProgram";
+import { NISGL } from './NISGL';
+import { NISGLProgram } from './NISGLProgram';
 
 export class NISGLAttribute {
   private _gl: NISGL;

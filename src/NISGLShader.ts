@@ -1,4 +1,4 @@
-import { NISGL } from "./NISGL";
+import { NISGL } from './NISGL';
 
 export class NISGLShader {
   private _gl: NISGL;

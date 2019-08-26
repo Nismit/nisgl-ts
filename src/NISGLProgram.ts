@@ -1,5 +1,5 @@
-import { NISGL } from "./NISGL";
-import { NISGLShader } from "./NISGLShader";
+import { NISGL } from './NISGL';
+import { NISGLShader } from './NISGLShader';
 
 export class NISGLProgram {
   private _gl: NISGL;

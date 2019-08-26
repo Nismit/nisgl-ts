@@ -1,5 +1,5 @@
 import GL_CONST from './constants';
-import { NISGL } from "./NISGL";
+import { NISGL } from './NISGL';
 
 export class NISGLBuffer {
   private _gl: NISGL;
