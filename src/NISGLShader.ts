@@ -10,18 +10,33 @@ export class NISGLShader {
     this._shader = shader;
   }
 
+  /**
+   * Get raw shader
+   * @returns {WebGLShader}
+   */
   public getShader(): WebGLShader {
     return this._shader;
   }
 
+  /**
+   * Delete shader
+   */
   public deleteShader(): void {
     this._gl.getGLContext().deleteShader(this._shader);
   }
 
+  /**
+   * Get status the shader already compiled
+   * @returns {boolean}
+   */
   public isCompiled(): boolean {
     return this._compiled;
   }
 
+  /**
+   * Compile the shader
+   * @param source 
+   */
   public compile(source: string): void {
     const gl = this._gl.getGLContext();
 
