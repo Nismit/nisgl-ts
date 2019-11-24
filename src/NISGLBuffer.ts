@@ -10,8 +10,13 @@ export class NISGLBuffer {
     this._buffer = buffer;
   }
 
-  public getBuffer(): WebGLBuffer {
+  public get getBuffer(): WebGLBuffer {
     return this._buffer;
+  }
+
+  public deleteBuffer(): void {
+    const gl = this._gl.getGLContext();
+    gl.deleteBuffer(this._buffer);
   }
 
   public createVertexPosition(
@@ -19,7 +24,7 @@ export class NISGLBuffer {
     usage: number = GL_CONST.STATIC_DRAW
   ): void {
     const gl = this._gl.getGLContext();
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.getBuffer());
+    gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
     gl.bufferData(gl.ARRAY_BUFFER, source, usage);
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
   }
@@ -29,7 +34,7 @@ export class NISGLBuffer {
     usage: number = GL_CONST.STATIC_DRAW
   ): void {
     const gl = this._gl.getGLContext();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.getBuffer());
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._buffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, source, usage);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
   }
