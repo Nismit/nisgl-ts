@@ -43,16 +43,11 @@ export class NISGLProgram {
     }
   }
 
-  public getAttributeLocation(name: string): GLint | void {
+  public getAttributeLocation(name: string): number {
     const gl = this._gl.getGLContext();
     const program = this._program;
 
-    if (gl.getAttribLocation(program, name) !== -1) {
-      return gl.getAttribLocation(program, name);
-    } else {
-      this._gl.emitMessage('Not found Attribute Location');
-      return;
-    }
+    return gl.getAttribLocation(program, name);
   }
 
   public getUniformLocation(name: string) {
@@ -61,13 +56,8 @@ export class NISGLProgram {
     return gl.getUniformLocation(this._program, name);
   }
 
-  public enableVertexAttribute(index: GLint) {
-    const gl = this._gl.getGLContext();
-    gl.enableVertexAttribArray(index);
-  }
-
-  public vertexAttributePointer(
-    index: GLint,
+  public setAttribute(
+    name: string,
     size: GLint,
     type: number = GL_CONST.FLOAT,
     normalized: boolean = false,
@@ -75,12 +65,14 @@ export class NISGLProgram {
     offset: number = 0
   ) {
     const gl = this._gl.getGLContext();
+    const attributeLocation = this.getAttributeLocation(name);
 
-    gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
-    // if (this._isEnabled) {
+    if (attributeLocation === -1) {
+      this._gl.emitMessage('Not found Attribute Location');
+    }
 
-    // } else {
-    //   this._gl.emitMessage('Not enabled vertex attribute yet');
-    // }
+    gl.enableVertexAttribArray(attributeLocation);
+    gl.vertexAttribPointer(attributeLocation, size, type, normalized, stride, offset);
+
   }
 }
