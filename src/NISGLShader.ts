@@ -22,7 +22,7 @@ export class NISGLShader {
    * Delete shader
    */
   public deleteShader(): void {
-    this._gl.getGLContext().deleteShader(this._shader);
+    this._gl.context.deleteShader(this._shader);
   }
 
   /**
@@ -38,7 +38,7 @@ export class NISGLShader {
    * @param source 
    */
   public compile(source: string): void {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
 
     gl.shaderSource(this._shader, source);
     gl.compileShader(this._shader);

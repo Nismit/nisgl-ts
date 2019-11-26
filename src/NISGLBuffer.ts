@@ -15,7 +15,7 @@ export class NISGLBuffer {
   }
 
   public deleteBuffer(): void {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
     gl.deleteBuffer(this._buffer);
   }
 
@@ -23,7 +23,7 @@ export class NISGLBuffer {
     source: ArrayBuffer | ArrayBufferView,
     usage: number = GL_CONST.STATIC_DRAW
   ): void {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
     gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
     gl.bufferData(gl.ARRAY_BUFFER, source, usage);
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
@@ -33,7 +33,7 @@ export class NISGLBuffer {
     source: ArrayBuffer | ArrayBufferView,
     usage: number = GL_CONST.STATIC_DRAW
   ): void {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._buffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, source, usage);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);

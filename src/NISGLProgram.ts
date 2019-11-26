@@ -17,11 +17,11 @@ export class NISGLProgram {
   }
 
   public deleteProgram(): void {
-    this._gl.getGLContext().deleteProgram(this._program);
+    this._gl.context.deleteProgram(this._program);
   }
 
   public useProgram(): void {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
 
     if (this._linked) {
       gl.useProgram(this._program);
@@ -31,7 +31,7 @@ export class NISGLProgram {
   }
 
   public linkProgram(shaders: NISGLShader[]): void {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
 
     shaders.forEach(shader => { gl.attachShader(this._program, shader.getShader()) });
     gl.linkProgram(this._program);
@@ -44,14 +44,14 @@ export class NISGLProgram {
   }
 
   public getAttributeLocation(name: string): number {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
     const program = this._program;
 
     return gl.getAttribLocation(program, name);
   }
 
   public getUniformLocation(name: string) {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
 
     return gl.getUniformLocation(this._program, name);
   }
@@ -64,7 +64,7 @@ export class NISGLProgram {
     stride: number = 0,
     offset: number = 0
   ) {
-    const gl = this._gl.getGLContext();
+    const gl = this._gl.context;
     const attributeLocation = this.getAttributeLocation(name);
 
     if (attributeLocation === -1) {
