@@ -4,4 +4,3 @@ export * from './NISGL';
 export * from './NISGLShader';
 export * from './NISGLProgram';
 export * from './NISGLBuffer';
-export * from './NISGLAttribute';
