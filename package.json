@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
   "scripts": {
-    "dev": "webpack-dev-server --hot --inline --watch-content-base --mode development",
+    "dev": "webpack-dev-server --hot --inline --mode development --watch-content-base",
     "build:js": "webpack --mode production",
     "build:ts": "tsc --emitDeclarationOnly",
     "build": "npm run build:js && npm run build:ts",
@@ -31,5 +31,8 @@
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
+  },
+  "dependencies": {
+    "gl-matrix": "^3.1.0"
   }
 }
