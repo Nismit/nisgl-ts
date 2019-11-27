@@ -9,7 +9,7 @@ export declare class NISGL {
      * Get rendering context
      * @return {WebGLRenderingContext}
      */
-    readonly context: WebGLRenderingContext;
+    get context(): WebGLRenderingContext;
     /**
      * Create shader instance
      * @param {number} type gl.VERTEX_SHADER | gl.FRAGMENT_SHADER

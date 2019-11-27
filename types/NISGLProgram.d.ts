@@ -5,7 +5,7 @@ export declare class NISGLProgram {
     private _program;
     private _linked;
     constructor(gl: NISGL, program: WebGLProgram);
-    readonly getProgram: WebGLProgram;
+    get getProgram(): WebGLProgram;
     deleteProgram(): void;
     useProgram(): void;
     linkProgram(shaders: NISGLShader[]): void;
