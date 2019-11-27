@@ -1,4 +1,5 @@
 import { NISGL } from "../dist/nisgl-ts";
+import { mat4 } from "gl-matrix";
 
 const Vertex = `
 attribute vec3 position;
@@ -47,7 +48,9 @@ function init() {
   fragment.compile(Fragment);
   const program = nisgl.createProgram();
   program.linkProgram([vertex, fragment]);
-  console.log(program);
+  console.log('testbb', program);
+
+  console.log(mat4.create());
 }
 
 window.onload = (() => { init() });
