@@ -1,44 +1,52 @@
-const path = require('path')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = (env, argv) => ({
-  entry: {
+module.exports = (env, argv) => {
+  let entries = {
     'nisgl-ts': './src/index.ts',
-    '../example/bundle': './example/example.js'
-  },
-  output: {
-    filename: '[name].js',
-    path: path.join(__dirname, 'dist'),
-    library: 'NISGL',
-    libraryTarget: 'umd',
-    globalObject: 'this'
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname),
-    publicPath: '/example/',
-    openPage: 'example/index.html',
-    port: 8080,
-    open: true
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader'
-          }
-        ]
-      }
-    ]
-  },
-  resolve: {
-    extensions: ['.ts', '.js']
-  },
-  plugins: [
-    // new HtmlWebpackPlugin({
-    //   template: path.resolve('./src/', 'index.html'),
-    //   filename: 'index.html'
-    // })
-  ]
-})
+    'example.bundle': './example/example.js'
+  }
+
+  if (argv.mode === 'production') {
+    entries = {
+      'nisgl-ts': './src/index.ts',
+      '../example/bundle': './example/example.js'
+    }
+  }
+
+  return {
+    entry: entries,
+    output: {
+      filename: '[name].js',
+      path: path.join(__dirname, 'dist'),
+      library: 'NISGL',
+      libraryTarget: 'umd',
+      globalObject: 'this'
+    },
+    devServer: {
+      contentBase: path.resolve(__dirname),
+      port: 8080,
+      open: true
+    },
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'ts-loader'
+            }
+          ]
+        }
+      ]
+    },
+    resolve: {
+      extensions: ['.ts', '.js']
+    },
+    plugins: argv.mode === 'production' ? [] : [new HtmlWebpackPlugin({
+      template: path.resolve('./example/', 'index.html'),
+      filename: 'index.html'
+    })]
+  }
+}
