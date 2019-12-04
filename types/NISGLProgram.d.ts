@@ -12,4 +12,6 @@ export declare class NISGLProgram {
     getAttributeLocation(name: string): number;
     getUniformLocation(name: string): WebGLUniformLocation | null;
     setAttribute(name: string, size: GLint, type?: number, normalized?: boolean, stride?: number, offset?: number): void;
+    setUniform(type: string, name: string, ...value: number[]): void;
+    uniform1i(location: WebGLUniformLocation, value: number): void;
 }
