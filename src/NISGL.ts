@@ -12,7 +12,7 @@ export class NISGL {
 
   /**
    * Get rendering context
-   * @return {WebGLRenderingContext}
+   * @return Return WebGLRenderingContext
    */
   public get context(): WebGLRenderingContext {
     return this._gl;
@@ -20,8 +20,8 @@ export class NISGL {
 
   /**
    * Create shader instance
-   * @param {number} type gl.VERTEX_SHADER | gl.FRAGMENT_SHADER
-   * @return {NISGLShader} Shader object
+   * @param type Allow these types gl.VERTEX_SHADER | gl.FRAGMENT_SHADER
+   * @return Shader class
    */
   public createShader(type: number): NISGLShader | null {
     const gl = this._gl;
@@ -37,7 +37,7 @@ export class NISGL {
 
   /**
    * Create program instance
-   * @returns {NISGLProgram|null} Program object
+   * @returns Return Program class
    */
   public createProgram(): NISGLProgram | null {
     const gl = this._gl;
@@ -52,8 +52,23 @@ export class NISGL {
   }
 
   /**
+   * Use program
+   * @param program Program object
+   */
+  public useProgram(program: NISGLProgram): void {
+    const gl = this._gl;
+
+    if (program === null) {
+      this.emitMessage('There is no program, can not use the program');
+      return;
+    }
+
+    gl.useProgram(program.getProgram);
+  }
+
+  /**
    * Create buffer instance
-   * @returns {NISGLBuffer|null} Buffer object
+   * @returns Return Buffer class
    */
   public createBuffer(): NISGLBuffer | null {
     const gl = this._gl;
@@ -69,11 +84,11 @@ export class NISGL {
 
   /**
    * Initalize canvas
-   * @param r {number} Red Color Value
-   * @param g {number} Green Color Value
-   * @param b {number} Blue Color Value
-   * @param a {number} Alpha Color Value
-   * @param depth {number} Depath
+   * @param r Red Color Value, default 0.0
+   * @param g Green Color Value, default 0.0
+   * @param b Blue Color Value, default 0.0
+   * @param a Alpha Color Value, default 1.0
+   * @param depth Depath, default 1.0
    */
   public clear(
     r: number = 0.0,
@@ -91,6 +106,7 @@ export class NISGL {
   /**
    * Emit Error Message
    * @param error {Error|string|null} Error Message
+   * @return Return Error
    */
   public emitMessage(error?: Error | string | null): Error {
     if (typeof error === 'string') {
