@@ -12,7 +12,7 @@ export class NISGLShader {
 
   /**
    * Get raw shader
-   * @returns {WebGLShader}
+   * @return Return shader
    */
   public getShader(): WebGLShader {
     return this._shader;
@@ -27,7 +27,6 @@ export class NISGLShader {
 
   /**
    * Get status the shader already compiled
-   * @returns {boolean}
    */
   public isCompiled(): boolean {
     return this._compiled;
@@ -35,7 +34,7 @@ export class NISGLShader {
 
   /**
    * Compile the shader
-   * @param source 
+   * @param source Shader
    */
   public compile(source: string): void {
     const gl = this._gl.context;

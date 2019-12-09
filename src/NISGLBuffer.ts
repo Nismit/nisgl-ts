@@ -10,15 +10,27 @@ export class NISGLBuffer {
     this._buffer = buffer;
   }
 
+  /**
+   * Get buffer instance
+   * @return Return WebGLBuffer
+   */
   public get getBuffer(): WebGLBuffer {
     return this._buffer;
   }
 
+  /**
+   * Delete buffer
+   */
   public deleteBuffer(): void {
     const gl = this._gl.context;
     gl.deleteBuffer(this._buffer);
   }
 
+  /**
+   * Attach vertex model data into the buffer
+   * @param source A model data
+   * @param usage Type of the model data, default GL_CONST.STATIC_DRAW
+   */
   public createVertexPosition(
     source: ArrayBuffer | ArrayBufferView,
     usage: number = GL_CONST.STATIC_DRAW
