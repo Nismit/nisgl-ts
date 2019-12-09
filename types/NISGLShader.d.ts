@@ -6,7 +6,7 @@ export declare class NISGLShader {
     constructor(gl: NISGL, shader: WebGLShader);
     /**
      * Get raw shader
-     * @returns {WebGLShader}
+     * @return Return shader
      */
     getShader(): WebGLShader;
     /**
@@ -15,12 +15,11 @@ export declare class NISGLShader {
     deleteShader(): void;
     /**
      * Get status the shader already compiled
-     * @returns {boolean}
      */
     isCompiled(): boolean;
     /**
      * Compile the shader
-     * @param source
+     * @param source Shader
      */
     compile(source: string): void;
 }
