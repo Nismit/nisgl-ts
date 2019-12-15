@@ -28,7 +28,7 @@ describe('NISGL', () => {
   });
 
   it('Create shader instance', () => {
-    const shader = nisgl.createShader(nisgl.context.FRAGMENT_SHADER);
+    const shader = nisgl.createShader(gl.FRAGMENT_SHADER);
     expect(shader).toBeInstanceOf(NISGLShader);
   });
 
