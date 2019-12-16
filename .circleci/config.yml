@@ -1,13 +1,13 @@
-# Javascript Node CircleCI 2.0 configuration file
 #
-# Check {{ '/2.0/language-javascript/' | docs_url }} for more details
+# CircleCI Config
+# Use custom docker image (Ref: Dockerfile)
 #
 version: 2.0
 
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:8.9.1
+    - image: nismit/nisgl-ts-node
 
 jobs:
   test:
@@ -23,7 +23,7 @@ jobs:
       - run: npm install
       - run:
           name: Run tests
-          command: npm test
+          command: xvfb-run -s "-ac -screen 0 1920x1080x24" npm test
 
       - save_cache:
           paths:
