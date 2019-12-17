@@ -4,13 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = (env, argv) => {
   let entries = {
     'nisgl-ts': './src/index.ts',
-    'docs.bundle': './docs/example.js'
+    'docs.bundle': './docs/src/index.js'
   }
 
   if (argv.mode === 'production') {
     entries = {
       'nisgl-ts': './src/index.ts',
-      '../docs/bundle': './docs/example.js'
+      '../docs/assets/js/bundle': './docs/src/index.js'
     }
   }
 
