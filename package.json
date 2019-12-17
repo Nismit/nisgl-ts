@@ -11,6 +11,14 @@
     "build": "npm run build:js && npm run build:ts",
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nismit/nisgl-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nismit/nisgl-ts/issues",
+    "email": "nismit.dev@gmail.com"
+  },
   "keywords": [
     "webgl",
     "typescript"
