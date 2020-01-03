@@ -53,7 +53,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                ignore: /.*/
       - deploy:
           filters:
             tags:
