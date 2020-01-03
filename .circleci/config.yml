@@ -52,8 +52,7 @@ workflows:
       - test:
           filters:
             branches:
-              ignore:
-                ignore: /.*/
+              ignore: /.*/
       - deploy:
           filters:
             tags:
