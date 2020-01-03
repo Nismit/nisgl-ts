@@ -4,13 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = (env, argv) => {
   let entries = {
     'nisgl-ts': './src/index.ts',
-    'example.bundle': './example/example.js'
+    'docs.bundle': './docs/src/index.js'
   }
 
   if (argv.mode === 'production') {
     entries = {
       'nisgl-ts': './src/index.ts',
-      '../example/bundle': './example/example.js'
+      '../docs/assets/js/bundle': './docs/src/index.js'
     }
   }
 
@@ -45,7 +45,7 @@ module.exports = (env, argv) => {
       extensions: ['.ts', '.js']
     },
     plugins: argv.mode === 'production' ? [] : [new HtmlWebpackPlugin({
-      template: path.resolve('./example/', 'index.html'),
+      template: path.resolve('./docs/', 'index.html'),
       filename: 'index.html'
     })]
   }

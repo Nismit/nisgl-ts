@@ -1,5 +1,7 @@
 webpack.config.js
+jest.config.js
 tsconfig.json
-example/
+.circleci/
+docs/
 tests/
 src/

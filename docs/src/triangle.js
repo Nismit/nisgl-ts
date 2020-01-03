@@ -1,4 +1,4 @@
-import { NISGL } from "../dist/nisgl-ts";
+import { NISGL } from "../../dist/nisgl-ts";
 import { mat4 } from "gl-matrix";
 
 const Vertex = `
@@ -15,7 +15,7 @@ void main(void){
 }`;
 
 
-function init() {
+export default function () {
   const canvas = document.querySelector('#canvas');
   canvas.width = 300;
   canvas.height = 300;
@@ -77,5 +77,3 @@ function init() {
   nisgl.context.drawArrays(nisgl.context.TRIANGLES, 0, 3);
   nisgl.context.flush();
 }
-
-window.onload = (() => { init() });
