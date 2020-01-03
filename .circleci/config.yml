@@ -49,10 +49,7 @@ workflows:
   version: 2
   test-deploy:
     jobs:
-      - test:
-          filters:
-            branches:
-              ignore: /.*/
+      - test
       - deploy:
           filters:
             tags:
