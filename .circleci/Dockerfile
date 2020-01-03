@@ -9,6 +9,8 @@
 #
 
 # Use CircleCI Node v12.13
+# Node v12.13.1+ has a bug
+# Ref: https://github.com/stackgl/headless-gl/issues/180 
 FROM circleci/node:12.13
 
 # Change user to root for setting up
