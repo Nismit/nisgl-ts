@@ -50,12 +50,15 @@ jobs:
             
 workflows:
   version: 2
-  test-deploy:
+  test:
     jobs:
-      - test
+      - test:
+          filters:
+            branches:
+              ignore: master
+  deploy:
+    jobs:
       - deploy:
-          requires:
-              - test
           filters:
             tags:
               only: /^v.*/
