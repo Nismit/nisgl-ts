@@ -56,9 +56,15 @@ workflows:
           filters:
             branches:
               ignore: master
-  deploy:
+  test-and-deploy:
     jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v.*/
       - deploy:
+          requires:
+            - test
           filters:
             tags:
               only: /^v.*/
