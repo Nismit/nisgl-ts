@@ -17,8 +17,8 @@ void main(void){
 
 export default function () {
   const canvas = document.querySelector('#canvas');
-  canvas.width = 300;
-  canvas.height = 300;
+  canvas.width = document.documentElement.clientWidth;
+  canvas.height = window.innerHeight;
   const gl = canvas.getContext('webgl');
   const nisgl = new NISGL(gl);
 
