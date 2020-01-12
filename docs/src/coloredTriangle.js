@@ -3,15 +3,21 @@ import { mat4 } from "gl-matrix";
 
 const Vertex = `
 attribute vec3 position;
+attribute vec4 color;
 uniform   mat4 mvpMatrix;
+varying   vec4 vColor;
 
-void main(void){
+void main(void) {
+    vColor = color;
     gl_Position = mvpMatrix * vec4(position, 1.0);
 }`;
 
 const Fragment = `
-void main(void){
-	gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+precision mediump float;
+varying vec4 vColor;
+
+void main(void) {
+	gl_FragColor = vColor;
 }`;
 
 
@@ -37,17 +43,30 @@ export default function () {
   nisgl.useProgram(program);
 
   // Create buffer
-  const buffer = nisgl.createBuffer();
+  const positionBuffer = nisgl.createBuffer();
+  const colorBuffer = nisgl.createBuffer();
 
   const vertex_data = [
     0.0, 1.0, 0.0,
     1.0, 0.0, 0.0,
     -1.0, 0.0, 0.0
   ];
-  const typedVertexData = new Float32Array(vertex_data); // needs to cast
-  buffer.createVertexPosition(typedVertexData); // should be set buffer VBO
 
-  program.setAttribute('position', 3, buffer);
+  // R,G,B,A
+  const vertex_color = [
+    1.0, 0.0, 0.0, 1.0,
+    0.0, 1.0, 0.0, 1.0,
+    0.0, 0.0, 1.0, 1.0
+  ];
+
+  const typedVertexData = new Float32Array(vertex_data); // needs to cast
+  const typedVertexColorData = new Float32Array(vertex_color);
+
+  positionBuffer.createVertexPosition(typedVertexData); // should be set buffer VBO
+  colorBuffer.createVertexPosition(typedVertexColorData);
+
+  program.setAttribute('position', 3, positionBuffer);
+  program.setAttribute('color', 4, colorBuffer);
 
   const mMatrix = mat4.create();
   const vMatrix = mat4.identity(mat4.create());
