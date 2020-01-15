@@ -1,3 +1,4 @@
+import './index.scss';
 import Triangle from './triangle';
 import ColoredTriangle from './coloredTriangle';
 import MultipleModels from './multipleModels';
