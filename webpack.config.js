@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, argv) => {
   let entries = {
@@ -10,7 +11,7 @@ module.exports = (env, argv) => {
   if (argv.mode === 'production') {
     entries = {
       'nisgl-ts': './src/index.ts',
-      '../docs/assets/js/bundle': './docs/src/index.js'
+      '../docs/assets/bundle': './docs/src/index.js'
     }
   }
 
@@ -31,6 +32,38 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          test: /\.scss/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                url: false,
+                sourceMap: false,
+                importLoaders: 2
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: false,
+                plugins: [
+                  // https://github.com/postcss/autoprefixer#options
+                  require('autoprefixer')({
+                    grid: true // CSS Grid Layout
+                  })
+                ]
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: false
+              }
+            }
+          ]
+        },
+        {
           test: /\.ts$/,
           exclude: /node_modules/,
           use: [
@@ -44,9 +77,16 @@ module.exports = (env, argv) => {
     resolve: {
       extensions: ['.ts', '.js']
     },
-    plugins: argv.mode === 'production' ? [] : [new HtmlWebpackPlugin({
-      template: path.resolve('./docs/', 'index.html'),
-      filename: 'index.html'
-    })]
+    plugins: argv.mode === 'production' ? [new MiniCssExtractPlugin({
+      filename: './[name].css'
+    })] : [
+      new HtmlWebpackPlugin({
+        template: path.resolve('./docs/', 'index.html'),
+        filename: 'index.html'
+      }),
+      new MiniCssExtractPlugin({
+        filename: '[name].css'
+      })
+    ]
   }
 }
