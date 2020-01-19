@@ -1,6 +1,9 @@
+import './index.scss';
 import Triangle from './triangle';
 import ColoredTriangle from './coloredTriangle';
 import MultipleModels from './multipleModels';
+import SimpleTransition from './simpleTransition';
+import Diamond from './diamond';
 
 function init() {
   const ID = document.body.id;
@@ -12,9 +15,14 @@ function init() {
     case 'coloredTriangle':
       ColoredTriangle();
       break;
-    case 'multipleModel':
+    case 'multipleModels':
       MultipleModels();
       break;
+    case 'simpleTransition':
+      SimpleTransition();
+      break;
+    case 'diamond':
+      Diamond();
     default:
       Triangle();
   }
