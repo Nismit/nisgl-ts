@@ -78,7 +78,7 @@ export default function () {
   program.setAttribute('position', 3, positionBuffer);
   program.setAttribute('color', 4, colorBuffer);
 
-  nisgl.context.bindBuffer(nisgl.context.ELEMENT_ARRAY_BUFFER, indexBuffer.getBuffer);
+  indexBuffer.bindBuffer('index');
 
   const mMatrix = mat4.create();
   const vMatrix = mat4.identity(mat4.create());

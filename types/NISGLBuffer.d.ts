@@ -2,6 +2,7 @@ import { NISGL } from './NISGL';
 export declare class NISGLBuffer {
     private _gl;
     private _buffer;
+    private _isCreatedBuffer;
     constructor(gl: NISGL, buffer: WebGLBuffer);
     /**
      * Get buffer instance
@@ -12,6 +13,12 @@ export declare class NISGLBuffer {
      * Delete buffer
      */
     deleteBuffer(): void;
+    /**
+     * Bind buffer data
+     * Must be created buffer data before run this function
+     * @param type Bind type allow 'position' or 'index'
+     */
+    bindBuffer(type: string): void;
     /**
      * Attach vertex model data into the buffer
      * @param source A model data

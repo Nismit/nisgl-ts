@@ -102,7 +102,7 @@ export class NISGLProgram {
       return;
     }
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer.getBuffer);
+    buffer.bindBuffer('position');
     gl.enableVertexAttribArray(attributeLocation);
     gl.vertexAttribPointer(attributeLocation, size, type, normalized, stride, offset);
   }
