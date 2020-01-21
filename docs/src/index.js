@@ -4,6 +4,7 @@ import ColoredTriangle from './coloredTriangle';
 import MultipleModels from './multipleModels';
 import SimpleTransition from './simpleTransition';
 import Diamond from './diamond';
+import Torus from './torus';
 
 function init() {
   const ID = document.body.id;
@@ -23,6 +24,10 @@ function init() {
       break;
     case 'diamond':
       Diamond();
+      break;
+    case 'torus':
+      Torus();
+      break;
     default:
       Triangle();
   }
