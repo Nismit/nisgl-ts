@@ -1,8 +1,8 @@
-import NISGLShader from './NISGLShader';
-import NISGLProgram from './NISGLProgram';
-import NISGLBuffer from './NISGLBuffer';
+import { NISGLShader } from './NISGLShader';
+import { NISGLProgram } from './NISGLProgram';
+import { NISGLBuffer } from './NISGLBuffer';
 
-export default class NISGL {
+export class NISGL {
   private _message = new Error('Exeption Error');
   private _gl: WebGLRenderingContext;
 

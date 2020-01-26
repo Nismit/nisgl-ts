@@ -5,9 +5,9 @@
  */
 
 import WebGLContext from "gl";
-import NISGL from "../src/NISGL";
-import NISGLShader from "../src/NISGLShader";
-import NISGLProgram from "../src/NISGLProgram";
+import { NISGL } from "../src/NISGL";
+import { NISGLShader } from "../src/NISGLShader";
+import { NISGLProgram } from "../src/NISGLProgram";
 
 describe('NISGL Functions Test', () => {
   let gl: WebGLRenderingContext;

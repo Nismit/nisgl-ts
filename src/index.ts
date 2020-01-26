@@ -1,6 +1,6 @@
 import GL_CONST from './constants';
 export { GL_CONST };
-export * from './NISGL';
-export * from './NISGLShader';
-export * from './NISGLProgram';
-export * from './NISGLBuffer';
+export { NISGL } from './NISGL';
+export { NISGLShader } from './NISGLShader';
+export { NISGLProgram } from './NISGLProgram';
+export { NISGLBuffer } from './NISGLBuffer';

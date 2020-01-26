@@ -1,5 +1,5 @@
-import NISGL from './NISGL';
-export default class NISGLBuffer {
+import { NISGL } from './NISGL';
+export declare class NISGLBuffer {
     private _gl;
     private _buffer;
     private _isCreatedBuffer;
