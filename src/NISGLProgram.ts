@@ -1,9 +1,9 @@
 import GL_CONST from './constants';
-import { NISGL } from './NISGL';
-import { NISGLShader } from './NISGLShader';
-import { NISGLBuffer } from './NISGLBuffer';
+import NISGL from './NISGL';
+import NISGLShader from './NISGLShader';
+import NISGLBuffer from './NISGLBuffer';
 
-export class NISGLProgram {
+export default class NISGLProgram {
   private _gl: NISGL;
   private _program: WebGLProgram;
   private _linked: boolean = false;
