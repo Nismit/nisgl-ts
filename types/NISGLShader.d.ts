@@ -1,5 +1,5 @@
-import NISGL from './NISGL';
-export default class NISGLShader {
+import { NISGL } from './NISGL';
+export declare class NISGLShader {
     private _gl;
     private _shader;
     private _compiled;
