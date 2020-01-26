@@ -1,4 +1,4 @@
-import { NISGL } from "../../dist/nisgl-ts";
+import NISGL from "../../dist/nisgl-ts";
 import { mat4 } from "gl-matrix";
 
 const Vertex = `
