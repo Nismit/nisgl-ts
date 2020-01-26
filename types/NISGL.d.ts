@@ -1,7 +1,7 @@
-import { NISGLShader } from './NISGLShader';
-import { NISGLProgram } from './NISGLProgram';
-import { NISGLBuffer } from './NISGLBuffer';
-export declare class NISGL {
+import NISGLShader from './NISGLShader';
+import NISGLProgram from './NISGLProgram';
+import NISGLBuffer from './NISGLBuffer';
+export default class NISGL {
     private _message;
     private _gl;
     constructor(gl: WebGLRenderingContext);

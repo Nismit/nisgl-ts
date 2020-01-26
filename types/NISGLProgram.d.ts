@@ -1,7 +1,7 @@
-import { NISGL } from './NISGL';
-import { NISGLShader } from './NISGLShader';
-import { NISGLBuffer } from './NISGLBuffer';
-export declare class NISGLProgram {
+import NISGL from './NISGL';
+import NISGLShader from './NISGLShader';
+import NISGLBuffer from './NISGLBuffer';
+export default class NISGLProgram {
     private _gl;
     private _program;
     private _linked;
