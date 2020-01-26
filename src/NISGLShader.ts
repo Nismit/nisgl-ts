@@ -1,6 +1,6 @@
-import NISGL from './NISGL';
+import { NISGL } from './NISGL';
 
-export default class NISGLShader {
+export class NISGLShader {
   private _gl: NISGL;
   private _shader: WebGLShader;
   private _compiled: boolean = false;

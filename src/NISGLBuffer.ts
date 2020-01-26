@@ -1,7 +1,7 @@
 import GL_CONST from './constants';
-import NISGL from './NISGL';
+import { NISGL } from './NISGL';
 
-export default class NISGLBuffer {
+export class NISGLBuffer {
   private _gl: NISGL;
   private _buffer: WebGLBuffer;
   private _isCreatedBuffer: boolean = false;
