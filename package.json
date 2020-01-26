@@ -1,6 +1,6 @@
 {
   "name": "nisgl-ts",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "WebGL Base Library with TypeScript",
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
