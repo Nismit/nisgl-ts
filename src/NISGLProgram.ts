@@ -7,6 +7,7 @@ export class NISGLProgram {
   private _gl: NISGL;
   private _program: WebGLProgram;
   private _linked: boolean = false;
+  private _restrict: boolean = false;
 
   constructor(gl: NISGL, program: WebGLProgram) {
     this._gl = gl;
@@ -27,6 +28,21 @@ export class NISGLProgram {
   public deleteProgram(): void {
     this._linked = false;
     this._gl.context.deleteProgram(this._program);
+  }
+
+  /**
+   * Get restriction setting
+   * @return Restriction config
+   */
+  public get getRestriction(): boolean {
+    return this._restrict;
+  }
+
+  /**
+   * Toggle restrict setting
+   */
+  public setRestrict(): void {
+    this._restrict = this._restrict ? false : true;
   }
 
   /**
@@ -117,7 +133,7 @@ export class NISGLProgram {
     const fn = (this as any)['uniform' + type];
     const uniformLocation = this.getUniformLocation(name);
 
-    if (uniformLocation === null) {
+    if (uniformLocation === null && this._restrict) {
       this._gl.emitMessage('Not found Uniform Location or Does not use in the shader');
       return;
     }
