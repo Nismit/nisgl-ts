@@ -5,6 +5,7 @@ export declare class NISGLProgram {
     private _gl;
     private _program;
     private _linked;
+    private _strict;
     constructor(gl: NISGL, program: WebGLProgram);
     /**
      * Get program instance
@@ -15,6 +16,15 @@ export declare class NISGLProgram {
      * Delete program
      */
     deleteProgram(): void;
+    /**
+     * Get strict mode
+     * @return Strict mode
+     */
+    get isStrict(): boolean;
+    /**
+     * Toggle strict mode
+     */
+    setStrict(): void;
     /**
      * Link shaders to the program
      * @param shaders Vertex and Fragment shaders
