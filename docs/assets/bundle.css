@@ -1,2 +1,2 @@
-body{height:100vh}
+body{margin:0;height:100vh}body#home{height:100%;background-color:#2e414a}.content-section{width:100%;max-width:1200px;margin:0 auto}.container{display:-ms-grid;display:grid;grid-row-gap:1rem;grid-column-gap:1rem;-ms-grid-columns:(1fr)[3];grid-template-columns:repeat(3, 1fr)}.container .column>a{display:block;height:215px;overflow:hidden}.container .column>a div{-webkit-transition:-webkit-transform 400ms ease-in;transition:-webkit-transform 400ms ease-in;transition:transform 400ms ease-in;transition:transform 400ms ease-in, -webkit-transform 400ms ease-in}.container .column>a:hover div{-webkit-transform:scale(1.4);transform:scale(1.4)}.container .column img{width:100%;height:auto;-o-object-fit:cover;object-fit:cover}
 
