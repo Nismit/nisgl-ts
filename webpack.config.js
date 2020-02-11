@@ -25,7 +25,7 @@ module.exports = (env, argv) => {
       globalObject: 'this'
     },
     devServer: {
-      contentBase: path.resolve(__dirname),
+      contentBase: path.resolve(__dirname, 'docs'),
       port: 8080,
       open: true
     },
