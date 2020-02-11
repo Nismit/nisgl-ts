@@ -6,11 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>NISGL Example</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/bundle.css" media="all">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90679064-4"></script>
   <script>
@@ -21,10 +17,48 @@
     gtag('config', 'UA-90679064-4');
   </script>
 </head>
+<body id="home">
+  <section class="content-section">
+    <div class="container">
+      <div class="column">
+        <a href="triangle.html">
+          <div><img src="assets/triangle.jpg" alt="Triangle"></div>
+        </a>
+      </div>
 
-<body>
-  <canvas id="canvas"></canvas>
-  <script src="assets/bundle.js"></script>
+      <div class="column">
+        <a href="colored-triangle.html">
+          <div><img src="assets/colored-triangle.jpg" alt="Colored Triangle"></div>
+        </a>
+      </div>
+
+      <div class="column">
+        <a href="multiple-models.html">
+          <div><img src="assets/mutiple-models.jpg" alt="Multiple Models"></div>
+        </a>
+      </div>
+      
+      <div class="column">
+        <a href="simple-transition.html">
+          <div><img src="assets/simple-transition.jpg" alt="Simple Transition"></div>
+        </a>
+      </div>
+
+      <div class="column">
+        <a href="diamond.html">
+          <div><img src="assets/diamond.jpg" alt="Diamond"></div>
+        </a>
+      </div>
+
+      <div class="column">
+        <a href="torus.html">
+          <div><img src="assets/torus.jpg" alt="Torus"></div>
+        </a>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <p>&copy; 2019 - <script>document.write(new Date().getFullYear());</script> NISGL-TS</p>
+  </footer>
 </body>
-
 </html>

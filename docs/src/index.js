@@ -29,7 +29,8 @@ function init() {
       Torus();
       break;
     default:
-      Triangle();
+      // TODO
+      // Will Implement WebGL Stuff For Homepage
   }
   
 }
