@@ -33,35 +33,7 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.scss/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                url: false,
-                sourceMap: false,
-                importLoaders: 2
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: false,
-                plugins: [
-                  // https://github.com/postcss/autoprefixer#options
-                  require('autoprefixer')({
-                    grid: true // CSS Grid Layout
-                  })
-                ]
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: false
-              }
-            }
-          ]
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
         },
         {
             test: /\.css$/,
@@ -70,12 +42,12 @@ module.exports = (env, argv) => {
         {
           test: /\.ts$/,
           exclude: /node_modules/,
-          use: [
-            {
-              loader: 'ts-loader'
-            }
-          ]
-        }
+          use: ['ts-loader']
+        },
+        {
+          test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+          type: 'asset/inline',
+        },
       ]
     },
     resolve: {
