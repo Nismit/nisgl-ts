@@ -2,13 +2,17 @@
   "name": "nisgl-ts",
   "version": "1.4.0",
   "description": "WebGL Base Library with TypeScript",
-  "main": "./dist/nisgl-ts.js",
+  "main": "./dist/nisgl.min.js",
   "types": "./types/index.d.ts",
   "scripts": {
-    "dev": "webpack serve --hot --inline --mode development --watch-content-base",
-    "build:js": "webpack --mode production",
+    "dev": "cross-env MODE=esm DEV=1 rollup -c -o dist/nisgl.module.js",
+    "cleanup": "rimraf dist/ types/",
+    "build:umd": "cross-env MODE=umd rollup -c -o dist/nisgl.js",
+    "build:esm": "cross-env MODE=esm rollup -c -o dist/nisgl.module.js",
+    "build:umd-prod": "cross-env MODE=umd PROD=1 rollup -c -o dist/nisgl.min.js",
+    "build:esm-prod": "cross-env MODE=esm PROD=1 rollup -c -o dist/nisgl.module.min.js",
     "build:ts": "tsc --emitDeclarationOnly",
-    "build": "npm run build:js && npm run build:ts",
+    "build": "npm run cleanup && npm run build:umd && npm run build:esm && npm run build:umd-prod && npm run build:esm-prod && npm run build:ts",
     "test": "jest"
   },
   "repository": {
@@ -26,22 +30,19 @@
   "author": "Nismit <nismit.dev@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
     "@types/gl": "^4.1.0",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.4.0",
     "@types/webgl-ext": "0.0.32",
-    "css-loader": "^5.2.6",
-    "gl": "^4.9.0",
-    "gl-matrix": "^3.3.0",
-    "html-webpack-plugin": "^5.3.2",
-    "jest": "^27.0.6",
-    "style-loader": "^3.0.0",
-    "ts-jest": "^27.0.3",
-    "ts-loader": "^9.2.3",
-    "tslint": "^6.1.2",
-    "typescript": "^4.3.5",
-    "webpack": "^5.42.0",
-    "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
-  },
-  "dependencies": {}
+    "cross-env": "^7.0.3",
+    "gl": "^5.0.0",
+    "gl-matrix": "^3.4.3",
+    "jest": "^27.4.7",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.63.0",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-jest": "^27.1.2",
+    "typescript": "^4.5.4"
+  }
 }
