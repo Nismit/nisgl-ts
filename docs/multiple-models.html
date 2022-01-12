@@ -7,11 +7,7 @@
   <title>Multiple Triangles | NISGL Example</title>
   <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-    }
-  </style>
+  <style>body { margin: 0; }</style>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90679064-4"></script>
   <script>
@@ -25,7 +21,94 @@
 
 <body id="multipleModels">
   <canvas id="canvas"></canvas>
-  <script src="assets/bundle.js"></script>
-</body>
+  <script type="module">
+    import NISGL from "../dist/nisgl.module.js";
+    import { mat4 } from "https://cdn.jsdelivr.net/npm/gl-matrix@3.4.3/esm/index.js";
 
+    const Vertex = `
+    attribute vec3 position;
+    attribute vec4 color;
+    uniform   mat4 mvpMatrix;
+    varying   vec4 vColor;
+
+    void main(void) {
+        vColor = color;
+        gl_Position = mvpMatrix * vec4(position, 1.0);
+    }`;
+
+    const Fragment = `
+    precision mediump float;
+    varying vec4 vColor;
+
+    void main(void) {
+      gl_FragColor = vColor;
+    }`;
+
+    const canvas = document.querySelector("#canvas");
+    canvas.width = document.documentElement.clientWidth;
+    canvas.height = window.innerHeight;
+    const gl = canvas.getContext("webgl");
+    const nisgl = new NISGL(gl);
+
+    // Clear
+    nisgl.clear();
+
+    // Create a program
+    const program = nisgl.createProgram(Vertex, Fragment);
+    program.use();
+
+    // Create buffer
+
+    // prettier-ignore
+    const vertex_data = [
+      0.0, 1.0, 0.0,
+      1.0, 0.0, 0.0,
+      -1.0, 0.0, 0.0
+    ];
+
+    // R,G,B,A
+    // prettier-ignore
+    const vertex_color = [
+      1.0, 0.0, 0.0, 1.0,
+      0.0, 1.0, 0.0, 1.0,
+      0.0, 0.0, 1.0, 1.0
+    ];
+
+    const positionBuffer = nisgl.arrayBuffer(new Float32Array(vertex_data));
+    const colorBuffer = nisgl.arrayBuffer(new Float32Array(vertex_color));
+
+    positionBuffer.attrib("position", 3);
+    colorBuffer.attrib("color", 4);
+
+    positionBuffer.attribPointer(program);
+    colorBuffer.attribPointer(program);
+
+    const mMatrix = mat4.create();
+    const vMatrix = mat4.identity(mat4.create());
+    const pMatrix = mat4.create();
+    const tmpMatrix = mat4.create();
+    const mvpMatrix = mat4.create();
+
+    mat4.lookAt(vMatrix, [0.0, 0.0, 3.0], [0, 0, 0], [0, 1.0, 0]);
+
+    mat4.perspective(pMatrix, 90, canvas.width / canvas.height, 0.1, 100);
+
+    mat4.multiply(tmpMatrix, pMatrix, vMatrix);
+
+    mat4.translate(mMatrix, mMatrix, [1.5, 0.0, 0.0]);
+    mat4.multiply(mvpMatrix, tmpMatrix, mMatrix);
+
+    program.setUniform("Matrix4fv", "mvpMatrix", mvpMatrix);
+    nisgl.context.drawArrays(nisgl.context.TRIANGLES, 0, 3);
+
+    mat4.identity(mMatrix);
+    mat4.translate(mMatrix, mMatrix, [-1.5, 0.0, 0.0]);
+    mat4.multiply(mvpMatrix, tmpMatrix, mMatrix);
+
+    program.setUniform("Matrix4fv", "mvpMatrix", mvpMatrix);
+    positionBuffer.drawTriangles(0, 3);
+
+    nisgl.flush();
+  </script>
+</body>
 </html>

@@ -7,11 +7,7 @@
   <title>Torus | NISGL Example</title>
   <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-    }
-  </style>
+  <style>body { margin: 0; }</style>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90679064-4"></script>
   <script>
@@ -22,10 +18,161 @@
     gtag('config', 'UA-90679064-4');
   </script>
 </head>
-
 <body id="torus">
   <canvas id="canvas"></canvas>
-  <script src="assets/bundle.js"></script>
-</body>
+  <script type="module">
+    import NISGL from "../dist/nisgl.module.js";
+    import { mat4 } from "https://cdn.jsdelivr.net/npm/gl-matrix@3.4.3/esm/index.js";
 
+    const Vertex = `
+    attribute vec3 position;
+    attribute vec4 color;
+    uniform   mat4 mvpMatrix;
+    varying   vec4 vColor;
+
+    void main(void) {
+      vColor = color;
+      gl_Position = mvpMatrix * vec4(position, 1.0);
+    }`;
+
+    const Fragment = `
+    precision mediump float;
+    varying vec4 vColor;
+
+    void main(void) {
+      gl_FragColor = vColor;
+    }`;
+
+    const canvas = document.querySelector("#canvas");
+    canvas.width = document.documentElement.clientWidth;
+    canvas.height = window.innerHeight;
+    const gl = canvas.getContext("webgl");
+    const nisgl = new NISGL(gl);
+
+    // Clear
+    nisgl.clear();
+
+    // Create a program
+    const program = nisgl.createProgram(Vertex, Fragment);
+    program.use();
+
+    // Create buffer
+    const torus_model = torus(32, 32, 1.0, 2.0);
+    console.log(torus_model);
+    const vertex_data = torus_model[0];
+    const vertex_color = torus_model[1];
+    const vertex_index = torus_model[2];
+
+    const positionBuffer = nisgl.arrayBuffer(new Float32Array(vertex_data));
+    const colorBuffer = nisgl.arrayBuffer(new Float32Array(vertex_color));
+    const indexBuffer = nisgl.indexBuffer(new Int16Array(vertex_index));
+
+    positionBuffer.attrib("position", 3);
+    colorBuffer.attrib("color", 4);
+
+    positionBuffer.attribPointer(program);
+    colorBuffer.attribPointer(program);
+    indexBuffer.bind();
+
+    const mMatrix = mat4.create();
+    const vMatrix = mat4.identity(mat4.create());
+    const pMatrix = mat4.create();
+    const tmpMatrix = mat4.create();
+    const mvpMatrix = mat4.create();
+
+    mat4.lookAt(vMatrix, [0.0, 0.0, 20.0], [0, 0, 0], [0, 1.0, 0]);
+
+    mat4.perspective(pMatrix, 45, canvas.width / canvas.height, 0.1, 100);
+
+    mat4.multiply(tmpMatrix, pMatrix, vMatrix);
+
+    let counter = 0;
+
+    nisgl.context.enable(nisgl.context.DEPTH_TEST);
+    nisgl.context.depthFunc(nisgl.context.LEQUAL);
+    nisgl.context.enable(nisgl.context.CULL_FACE);
+
+    function render() {
+      nisgl.clear();
+
+      counter++;
+
+      const rad = ((counter % 360) * Math.PI) / 180;
+
+      mat4.identity(mMatrix);
+      mat4.rotate(mMatrix, mMatrix, rad, [0.0, 1.0, 1.0]);
+      mat4.multiply(mvpMatrix, tmpMatrix, mMatrix);
+
+      program.setUniform("Matrix4fv", "mvpMatrix", mvpMatrix);
+      indexBuffer.drawTriangles(vertex_index.length, 0);
+      nisgl.flush();
+    }
+
+    function renderLoop() {
+      render();
+      requestAnimationFrame(renderLoop);
+    }
+
+    function torus(row, col, innerRad, outerRad) {
+      const position = [];
+      const column = [];
+      const index = [];
+
+      for (let i = 0; i <= row; i++) {
+        const rad = ((Math.PI * 2) / row) * i;
+        const radX = Math.cos(rad);
+        const radY = Math.sin(rad);
+
+        for (let j = 0; j <= col; j++) {
+          const tx = ((Math.PI * 2) / col) * j;
+          const ty = (radX * innerRad + outerRad) * Math.cos(tx);
+          const tz = radY * innerRad;
+          const tw = (radX * innerRad + outerRad) * Math.sin(tx);
+          position.push(ty, tz, tw);
+
+          const tc = hsva((360 / col) * j, 1.0, 1.0, 1.0);
+          column.push(tc[0], tc[1], tc[2], tc[3]);
+        }
+      }
+
+      for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+          const rad = (col + 1) * i + j;
+          index.push(rad, rad + col + 1, rad + 1);
+          index.push(rad + col + 1, rad + col + 2, rad + 1);
+        }
+      }
+
+      return [position, column, index];
+    }
+
+    function hsva(h, s, v, a) {
+      const color = [];
+
+      if (s > 1 || v > 1 || a > 1) {
+        return;
+      }
+
+      const th = h % 360;
+      const i = Math.floor(th / 60);
+      const f = th / 60 - i;
+      const m = v * (1 - s);
+      const n = v * (1 - s * f);
+      const k = v * (1 - s * (1 - f));
+
+      if (!s > 0 && !s < 0) {
+        color.push(v, v, v, a);
+      } else {
+        const r = [v, n, m, m, k, v];
+        const g = [k, v, v, n, m, m];
+        const b = [m, m, k, v, v, n];
+        color.push(r[i], g[i], b[i], a);
+      }
+
+      return color;
+    }
+
+    renderLoop();
+  </script>
+</body>
 </html>
