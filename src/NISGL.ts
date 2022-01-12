@@ -1,9 +1,8 @@
-import { NISGLShader } from './NISGLShader';
-import { NISGLProgram } from './NISGLProgram';
-import { NISGLBuffer } from './NISGLBuffer';
-
+import GL_CONST from "./constants";
+import { NISGLProgram } from "./NISGLProgram";
+import { NISGLBuffer } from "./NISGLBuffer";
 export class NISGL {
-  private _message = new Error('Exeption Error');
+  private _message = new Error("Exeption Error");
   private _gl: WebGLRenderingContext;
 
   constructor(gl: WebGLRenderingContext) {
@@ -12,83 +11,72 @@ export class NISGL {
 
   /**
    * Get rendering context
-   * @return Return WebGLRenderingContext
+   * @return {WebGLRenderingContext}  WebGL Context
    */
   public get context(): WebGLRenderingContext {
     return this._gl;
   }
 
   /**
-   * Create shader instance
-   * @param type Allow these types gl.VERTEX_SHADER | gl.FRAGMENT_SHADER
-   * @return Shader class
-   */
-  public createShader(type: number): NISGLShader | null {
-    const gl = this._gl;
-    const shader = gl.createShader(type);
-
-    if (shader === null) {
-      this.emitMessage(this._message);
-      return null;
-    }
-
-    return new NISGLShader(this, shader);
-  }
-
-  /**
    * Create program instance
-   * @returns Return Program class
+   * @param {string} vertex - Vertex shader source
+   * @param {string} fragment - Fragment shader source
+   * @return {NISGLProgram} NISGLProgram instance
    */
-  public createProgram(): NISGLProgram | null {
+  public createProgram(
+    vertex?: string,
+    fragment?: string
+  ): NISGLProgram | undefined {
     const gl = this._gl;
     const program = gl.createProgram();
 
     if (program === null) {
-      this.emitMessage(this._message);
-      return null;
-    }
-
-    return new NISGLProgram(this, program);
-  }
-
-  /**
-   * Use program
-   * @param program Program object
-   */
-  public useProgram(program: NISGLProgram): void {
-    const gl = this._gl;
-
-    if (program === null) {
-      this.emitMessage('There is no program, can not use the program');
+      this.emitMessage("Program creation error");
       return;
     }
 
-    gl.useProgram(program.getProgram);
+    return new NISGLProgram(gl, program, vertex, fragment);
   }
 
   /**
-   * Create buffer instance
-   * @returns Return Buffer class
+   * Create index buffer instance
+   * @return {NISGLBuffer} NISGLBuffer instance
    */
-  public createBuffer(): NISGLBuffer | null {
+  public indexBuffer(data?: BufferSource): NISGLBuffer | undefined {
     const gl = this._gl;
     const buffer = gl.createBuffer();
 
     if (buffer === null) {
-      this.emitMessage(this._message);
-      return null;
+      this.emitMessage("Index Buffer creation error");
+      return;
     }
 
-    return new NISGLBuffer(this, buffer);
+    return new NISGLBuffer(gl, buffer, "index", data);
+  }
+
+  /**
+   * Create array buffer instance
+   * @return {NISGLBuffer} NISGLBuffer instance
+   */
+  public arrayBuffer(data?: BufferSource): NISGLBuffer | undefined {
+    const gl = this._gl;
+    const buffer = gl.createBuffer();
+
+    if (buffer === null) {
+      this.emitMessage("Array Buffer creation error");
+      return;
+    }
+
+    return new NISGLBuffer(gl, buffer, "array", data);
   }
 
   /**
    * Initalize canvas
-   * @param r Red Color Value, default 0.0
-   * @param g Green Color Value, default 0.0
-   * @param b Blue Color Value, default 0.0
-   * @param a Alpha Color Value, default 1.0
-   * @param depth Depath, default 1.0
+   * @param {number} r Red Color Value, default 0.0
+   * @param {number} g Green Color Value, default 0.0
+   * @param {number} b Blue Color Value, default 0.0
+   * @param {number} a Alpha Color Value, default 1.0
+   * @param {number} depth Depath, default 1.0
    */
   public clear(
     r: number = 0.0,
@@ -100,16 +88,23 @@ export class NISGL {
     const gl = this._gl;
     gl.clearColor(r, g, b, a);
     gl.clearDepth(depth);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(GL_CONST.COLOR_BUFFER_BIT | GL_CONST.DEPTH_BUFFER_BIT);
+  }
+
+  /**
+   * Flush
+   */
+  flush() {
+    this._gl.flush();
   }
 
   /**
    * Emit Error Message
-   * @param error {Error|string|null} Error Message
-   * @return Return Error
+   * @param {Error | string | null} error {Error|string|null} Error Message
+   * @return {Error} Error message
    */
   public emitMessage(error?: Error | string | null): Error {
-    if (typeof error === 'string') {
+    if (typeof error === "string") {
       throw new Error(error);
     } else if (error) {
       throw error;
