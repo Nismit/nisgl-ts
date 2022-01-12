@@ -1,49 +1,48 @@
-import { NISGLShader } from './NISGLShader';
-import { NISGLProgram } from './NISGLProgram';
-import { NISGLBuffer } from './NISGLBuffer';
+import { NISGLProgram } from "./NISGLProgram";
+import { NISGLBuffer } from "./NISGLBuffer";
 export declare class NISGL {
     private _message;
     private _gl;
     constructor(gl: WebGLRenderingContext);
     /**
      * Get rendering context
-     * @return Return WebGLRenderingContext
+     * @return {WebGLRenderingContext}  WebGL Context
      */
     get context(): WebGLRenderingContext;
     /**
-     * Create shader instance
-     * @param type Allow these types gl.VERTEX_SHADER | gl.FRAGMENT_SHADER
-     * @return Shader class
-     */
-    createShader(type: number): NISGLShader | null;
-    /**
      * Create program instance
-     * @returns Return Program class
+     * @param {string} vertex - Vertex shader source
+     * @param {string} fragment - Fragment shader source
+     * @return {NISGLProgram} NISGLProgram instance
      */
-    createProgram(): NISGLProgram | null;
+    createProgram(vertex?: string, fragment?: string): NISGLProgram | undefined;
     /**
-     * Use program
-     * @param program Program object
+     * Create index buffer instance
+     * @return {NISGLBuffer} NISGLBuffer instance
      */
-    useProgram(program: NISGLProgram): void;
+    indexBuffer(data?: BufferSource): NISGLBuffer | undefined;
     /**
-     * Create buffer instance
-     * @returns Return Buffer class
+     * Create array buffer instance
+     * @return {NISGLBuffer} NISGLBuffer instance
      */
-    createBuffer(): NISGLBuffer | null;
+    arrayBuffer(data?: BufferSource): NISGLBuffer | undefined;
     /**
      * Initalize canvas
-     * @param r Red Color Value, default 0.0
-     * @param g Green Color Value, default 0.0
-     * @param b Blue Color Value, default 0.0
-     * @param a Alpha Color Value, default 1.0
-     * @param depth Depath, default 1.0
+     * @param {number} r Red Color Value, default 0.0
+     * @param {number} g Green Color Value, default 0.0
+     * @param {number} b Blue Color Value, default 0.0
+     * @param {number} a Alpha Color Value, default 1.0
+     * @param {number} depth Depath, default 1.0
      */
     clear(r?: number, g?: number, b?: number, a?: number, depth?: number): void;
     /**
+     * Flush
+     */
+    flush(): void;
+    /**
      * Emit Error Message
-     * @param error {Error|string|null} Error Message
-     * @return Return Error
+     * @param {Error | string | null} error {Error|string|null} Error Message
+     * @return {Error} Error message
      */
     emitMessage(error?: Error | string | null): Error;
 }

@@ -1,24 +1,34 @@
-import { NISGL } from './NISGL';
-import { NISGLShader } from './NISGLShader';
-import { NISGLBuffer } from './NISGLBuffer';
 export declare class NISGLProgram {
     private _gl;
     private _program;
+    private _vertex;
+    private _fragment;
     private _linked;
     private _strict;
-    constructor(gl: NISGL, program: WebGLProgram);
+    constructor(gl: WebGLRenderingContext, program: WebGLProgram, vertex?: string, fragment?: string);
     /**
      * Get program instance
-     * @return Return WebGLProgram
+     * @return {NISGLProgram} NISGLProgram
      */
     get getProgram(): WebGLProgram;
     /**
      * Delete program
      */
-    deleteProgram(): void;
+    dispose(): void;
+    /**
+     * Use Program
+     */
+    use(): void;
+    /**
+     * Compile shaders then link to program
+     * @param {string} vertex - Vertex shader source
+     * @param {string} fragment - Fragment shader source
+     * @return {boolean}
+     */
+    compile(vertex: string, fragment: string): boolean;
     /**
      * Get strict mode
-     * @return Strict mode
+     * @return {boolean} Strict mode
      */
     get isStrict(): boolean;
     /**
@@ -26,38 +36,16 @@ export declare class NISGLProgram {
      */
     setStrict(): void;
     /**
-     * Link shaders to the program
-     * @param shaders Vertex and Fragment shaders
-     */
-    linkProgram(shaders: NISGLShader[]): void;
-    /**
-     * Get attribute location
-     * @param name Attribute name from a shader
-     * @return Return attribute index number
-     */
-    getAttributeLocation(name: string): number;
-    /**
      * Get uniform location
-     * @param name Uniform name from a shader
-     * @return Return uniform index number
+     * @param {string} name Uniform name from a shader
+     * @return {WebGLUniformLocation} Return uniform index number
      */
     getUniformLocation(name: string): WebGLUniformLocation | null;
     /**
-     * Set 3D geometry object to vertex shader
-     * @param name Attibute name
-     * @param size Size of geometry object, Must be 1,2,3 or 4 (e.g. x,y,z object is 3)
-     * @param buffer Vertex Buffer Object(VBO) which is already set value
-     * @param type Specifying the data type, default GL_CONST.FLOAT
-     * @param normalized Normalized VBO, default false
-     * @param stride default 0
-     * @param offset default 0
-     */
-    setAttribute(name: string, size: GLint, buffer: NISGLBuffer | null, type?: number, normalized?: boolean, stride?: number, offset?: number): void;
-    /**
      * Set a value into the uniform
-     * @param type Uniform type
-     * @param name Uniform name
-     * @param value Value which can be set several value in an array
+     * @param {string} type Uniform type
+     * @param {string} name Uniform name
+     * @param {number[]} value Value which can be set several value in an array
      */
     setUniform(type: string, name: string, ...value: number[]): void;
     /**
