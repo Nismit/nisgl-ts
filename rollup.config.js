@@ -6,6 +6,10 @@ const isUmd = process.env.MODE === "umd" ? true : false;
 const isProd = process.env.PROD ? true : false;
 const isDev = process.env.DEV ? true : false;
 
+const option = {
+  target: isUmd ? "es5" : "es6",
+};
+
 export default {
   input: "src/index.ts",
   output: {
@@ -14,7 +18,7 @@ export default {
     sourcemap: isDev ? "inline" : false,
   },
   plugins: [
-    typescript(),
+    typescript(option),
     ...(isDev ? [serve({ port: 8080, contentBase: "." })] : []),
     ...(isProd ? [terser()] : []),
   ],
