@@ -1,6 +1,6 @@
 export class NISGLProgram {
-  private _gl: WebGLRenderingContext;
-  private _program: WebGLProgram;
+  readonly _gl: WebGLRenderingContext;
+  readonly _program: WebGLProgram;
   private _vertex: WebGLShader;
   private _fragment: WebGLShader;
   private _linked: boolean = false;
@@ -352,7 +352,7 @@ function compileShader(
   gl: WebGLRenderingContext,
   shader: WebGLShader,
   source: string
-) {
+): Boolean {
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
 
