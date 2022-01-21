@@ -1,8 +1,8 @@
 import { NISGLProgram } from "./NISGLProgram";
 export declare class NISGLBuffer {
-    private _gl;
-    private _buffer;
-    private _bufferType;
+    readonly _gl: WebGLRenderingContext;
+    readonly _buffer: WebGLBuffer;
+    readonly _bufferType: number;
     private _usage;
     private _attribs;
     private _type;
@@ -32,9 +32,9 @@ export declare class NISGLBuffer {
     data(source: BufferSource): void;
     /**
      * Store attribute data
-     * @param name Attibute name
+     * @param {string} name Attibute name
      * @param size Size of geometry object, Must be 1,2,3 or 4 (e.g. x,y,z object is 3)
-     * @param type Specifying the data type, default GL_CONST.FLOAT
+     * @param type Specifying the data type, default GL_FLOAT (0x1406)
      * @param normalized Normalized VBO, default false
      * @param stride default 0
      * @param offset default 0
