@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Frame Buffer | NISGL Example</title>
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>body { margin: 0; }</style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90679064-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-90679064-4');
+  </script>
+</head>
+<body id="triangle">
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import NISGL from "../dist/nisgl.module.js";
+    import { mat4 } from "https://cdn.jsdelivr.net/npm/gl-matrix@3.4.3/esm/index.js";
+
+    const Vertex = `
+    attribute vec4 position;
+    attribute vec2 textureCoord;
+    uniform mat4 mvpMatrix;
+    varying vec2 v_texcoord;
+
+    void main(void) {
+      v_texcoord = textureCoord;
+      gl_Position = mvpMatrix * vec4(position);
+    }`;
+
+    const Fragment = `
+    precision mediump float;
+    uniform sampler2D texture0;
+    varying vec2 v_texcoord;
+
+    void main(void) {
+      gl_FragColor = texture2D(texture0, v_texcoord);
+    }`;
+
+    (async () => {
+      const canvas = document.querySelector("#canvas");
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = window.innerHeight;
+      const gl = canvas.getContext("webgl");
+      const nisgl = new NISGL(gl);
+
+      // Clear
+      nisgl.clear();
+
+      // Create a program
+      const program = nisgl.createProgram(Vertex, Fragment);
+      program.use();
+
+      // Create buffer
+      // prettier-ignore
+      const vertex_positon = [
+        -0.5, -0.5,  -0.5,
+        -0.5,  0.5,  -0.5,
+        0.5, -0.5,  -0.5,
+        -0.5,  0.5,  -0.5,
+        0.5,  0.5,  -0.5,
+        0.5, -0.5,  -0.5,
+
+        -0.5, -0.5,   0.5,
+        0.5, -0.5,   0.5,
+        -0.5,  0.5,   0.5,
+        -0.5,  0.5,   0.5,
+        0.5, -0.5,   0.5,
+        0.5,  0.5,   0.5,
+
+        -0.5,   0.5, -0.5,
+        -0.5,   0.5,  0.5,
+        0.5,   0.5, -0.5,
+        -0.5,   0.5,  0.5,
+        0.5,   0.5,  0.5,
+        0.5,   0.5, -0.5,
+
+        -0.5,  -0.5, -0.5,
+        0.5,  -0.5, -0.5,
+        -0.5,  -0.5,  0.5,
+        -0.5,  -0.5,  0.5,
+        0.5,  -0.5, -0.5,
+        0.5,  -0.5,  0.5,
+
+        -0.5,  -0.5, -0.5,
+        -0.5,  -0.5,  0.5,
+        -0.5,   0.5, -0.5,
+        -0.5,  -0.5,  0.5,
+        -0.5,   0.5,  0.5,
+        -0.5,   0.5, -0.5,
+
+        0.5,  -0.5, -0.5,
+        0.5,   0.5, -0.5,
+        0.5,  -0.5,  0.5,
+        0.5,  -0.5,  0.5,
+        0.5,   0.5, -0.5,
+        0.5,   0.5,  0.5,
+    ];
+
+      // prettier-ignore
+      const textureCoord = [
+        0, 0,
+        0, 1,
+        1, 0,
+        0, 1,
+        1, 1,
+        1, 0,
+
+        0, 0,
+        0, 1,
+        1, 0,
+        1, 0,
+        0, 1,
+        1, 1,
+
+        0, 0,
+        0, 1,
+        1, 0,
+        0, 1,
+        1, 1,
+        1, 0,
+
+        0, 0,
+        0, 1,
+        1, 0,
+        1, 0,
+        0, 1,
+        1, 1,
+
+        0, 0,
+        0, 1,
+        1, 0,
+        0, 1,
+        1, 1,
+        1, 0,
+
+        0, 0,
+        0, 1,
+        1, 0,
+        1, 0,
+        0, 1,
+        1, 1,
+      ];
+
+      const positionBuffer = nisgl.arrayBuffer(new Float32Array(vertex_positon));
+      const textureBuffer = nisgl.arrayBuffer(new Float32Array(textureCoord));
+
+      positionBuffer.attrib("position", 3);
+      textureBuffer.attrib("textureCoord", 2);
+
+      // Camera
+      const mMatrix = mat4.create();
+      const vMatrix = mat4.identity(mat4.create());
+      const pMatrix = mat4.create();
+      const tmpMatrix = mat4.create();
+      const mvpMatrix = mat4.create();
+
+      mat4.lookAt(vMatrix, [0.0, 2.0, 5.0], [0, 0, 0], [0, 1.0, 0]);
+      mat4.perspective(pMatrix, 45, canvas.width / canvas.height, 0.1, 100);
+      mat4.multiply(tmpMatrix, pMatrix, vMatrix);
+
+      const texture = nisgl.createTexture();
+      texture.fromData(512, 512, null);
+
+      const targetTexture = nisgl.createTexture();
+      targetTexture.fromData(512, 512, null);
+
+      // const fb = gl.createFramebuffer();
+      // gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+
+      // const attachmentPoint = gl.COLOR_ATTACHMENT0;
+      // const level = 0;
+      // gl.framebufferTexture2D(gl.FRAMEBUFFER, attachmentPoint, gl.TEXTURE_2D, targetTexture._texture, level);
+
+      const fbo = nisgl.createFrameBuffer(512, 512);
+      // fbo.bind();
+      fbo.attachTexture();
+      // fbo.resize(512, 512);
+
+      let counter = 0;
+
+      function render() {
+        counter++;
+        const rad = ((counter % 360) * Math.PI) / 180;
+
+        gl.enable(gl.CULL_FACE);
+        gl.enable(gl.DEPTH_TEST);
+
+        // gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+        fbo.bind();
+
+        texture.bind();
+
+        gl.viewport(0, 0, 512, 512);
+
+        nisgl.clear(0.1, 0.1, 0.2);
+
+        mat4.identity(mMatrix);
+        mat4.rotate(mMatrix, mMatrix, rad, [0.0, 1.0, 0.0]);
+        mat4.multiply(mvpMatrix, tmpMatrix, mMatrix);
+
+        positionBuffer.attribPointer(program);
+        textureBuffer.attribPointer(program);
+
+        program.setUniform("Matrix4fv", "mvpMatrix", mvpMatrix);
+        program.setUniform("1i", "texture0", 0);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6 * 6);
+
+        fbo.unbind();
+        // gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+        const tex = fbo.getTexture();
+        tex.bind();
+
+        // targetTexture.bind();
+
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+        nisgl.clear(0.9, 0.9, 0.9);
+
+        mat4.identity(mMatrix);
+        mat4.rotate(mMatrix, mMatrix, -rad, [0.0, 1.0, 0.0]);
+        mat4.multiply(mvpMatrix, tmpMatrix, mMatrix);
+
+        program.setUniform("Matrix4fv", "mvpMatrix", mvpMatrix);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6 * 6);
+        nisgl.flush();
+
+      }
+
+      function renderLoop() {
+        render();
+        requestAnimationFrame(renderLoop);
+      }
+      renderLoop();
+    })();
+  </script>
+</body>
+</html>

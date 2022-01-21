@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Texture | NISGL Example</title>
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>body { margin: 0; }</style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90679064-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-90679064-4');
+  </script>
+</head>
+<body id="triangle">
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import NISGL from "../dist/nisgl.module.js";
+    import { mat4 } from "https://cdn.jsdelivr.net/npm/gl-matrix@3.4.3/esm/index.js";
+
+    const Vertex = `
+    attribute vec3 position;
+    attribute vec4 color;
+    attribute vec2 textureCoord;
+    uniform   mat4 mvpMatrix;
+    varying   vec4 vColor;
+    varying   vec2 vTextureCoord;
+
+    void main(void){
+      vColor        = color;
+      vTextureCoord = textureCoord;
+      gl_Position   = mvpMatrix * vec4(position, 1.0);
+    }`;
+
+    const Fragment = `
+    precision mediump float;
+    uniform sampler2D texture0;
+    uniform sampler2D texture1;
+    varying vec4      vColor;
+    varying vec2      vTextureCoord;
+
+    void main(void){
+      // vec4 smpColor = texture2D(texture, vTextureCoord);
+      // gl_FragColor  = vColor * smpColor;
+      vec4 smpColor0 = texture2D(texture0, vTextureCoord);
+      vec4 smpColor1 = texture2D(texture1, vTextureCoord);
+      gl_FragColor   = vColor * smpColor0 * smpColor1;
+    }`;
+
+    (async () => {
+      const canvas = document.querySelector("#canvas");
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = window.innerHeight;
+      const gl = canvas.getContext("webgl");
+      const nisgl = new NISGL(gl);
+
+      // Clear
+      nisgl.clear();
+
+      // Create a program
+      const program = nisgl.createProgram(Vertex, Fragment);
+      program.use();
+
+      // Create buffer
+      // prettier-ignore
+      const vertex_data = [
+        -1.0,  1.0,  0.0,
+        1.0,   1.0,  0.0,
+        -1.0, -1.0,  0.0,
+        1.0,  -1.0,  0.0
+    ];
+
+      // R,G,B,A
+      // prettier-ignore
+      const vertex_color = [
+        // 1.0, 0.0, 0.0, 1.0,
+        // 0.0, 1.0, 0.0, 1.0,
+        // 0.0, 0.0, 1.0, 1.0,
+        // 1.0, 1.0, 1.0, 1.0
+        1.0, 1.0, 1.0, 1.0,
+        1.0, 1.0, 1.0, 1.0,
+        1.0, 1.0, 1.0, 1.0,
+        1.0, 1.0, 1.0, 1.0
+      ];
+
+      // prettier-ignore
+      const textureCoord = [
+        0.0, 0.0,
+        1.0, 0.0,
+        0.0, 1.0,
+        1.0, 1.0
+      ];
+
+      // prettier-ignore
+      const vertex_index = [
+        0, 1, 2,
+        1, 2, 3
+      ];
+
+      const positionBuffer = nisgl.arrayBuffer(new Float32Array(vertex_data));
+      const colorBuffer = nisgl.arrayBuffer(new Float32Array(vertex_color));
+      const textureBuffer = nisgl.arrayBuffer(new Float32Array(textureCoord));
+      const indexBuffer = nisgl.indexBuffer(new Int16Array(vertex_index));
+
+      positionBuffer.attrib("position", 3);
+      colorBuffer.attrib("color", 4);
+      textureBuffer.attrib("textureCoord", 2);
+
+      positionBuffer.attribPointer(program);
+      colorBuffer.attribPointer(program);
+      textureBuffer.attribPointer(program);
+      indexBuffer.bind();
+
+      // Camera
+      const mMatrix = mat4.create();
+      const vMatrix = mat4.identity(mat4.create());
+      const pMatrix = mat4.create();
+      const tmpMatrix = mat4.create();
+      const mvpMatrix = mat4.create();
+
+      mat4.lookAt(vMatrix, [0.0, 2.0, 5.0], [0, 0, 0], [0, 1.0, 0]);
+      mat4.perspective(pMatrix, 45, canvas.width / canvas.height, 0.1, 100);
+      mat4.multiply(tmpMatrix, pMatrix, vMatrix);
+
+      // Texture
+      // let texture;
+      // gl.activeTexture(gl.TEXTURE1);
+      // const image = await imageLoader('/docs/assets/128.jpg');
+      // const tex = gl.createTexture();
+      // gl.bindTexture(gl.TEXTURE_2D, tex);
+      // gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      // gl.generateMipmap(gl.TEXTURE_2D);
+      // gl.bindTexture(gl.TEXTURE_2D, null);
+      // texture = tex;
+
+      const textureInstance = nisgl.createTexture();
+      const image = await imageLoader('/docs/assets/128.jpg');
+      textureInstance.fromImage(image);
+      textureInstance.bind(1);
+
+      const textureInstance2 = nisgl.createTexture();
+      const image2 = await imageLoader('/docs/assets/32.jpg');
+      textureInstance2.fromImage(image2);
+      textureInstance2.bind(2);
+
+      let counter = 0;
+
+      function render() {
+        nisgl.clear();
+
+        counter++;
+
+        const rad = ((counter % 360) * Math.PI) / 180;
+
+        mat4.identity(mMatrix);
+        mat4.rotate(mMatrix, mMatrix, rad, [0.0, 1.0, 0.0]);
+        mat4.multiply(mvpMatrix, tmpMatrix, mMatrix);
+
+        // gl.bindTexture(gl.TEXTURE_2D, texture);
+        program.setUniform("Matrix4fv", "mvpMatrix", mvpMatrix);
+        // program.setUniform("1i", "texture", 1);
+        program.setUniform("1i", "texture0", 1);
+        program.setUniform("1i", "texture1", 2);
+        indexBuffer.drawTriangles(vertex_index.length, 0);
+        nisgl.flush();
+      }
+
+      function renderLoop() {
+        render();
+        requestAnimationFrame(renderLoop);
+      }
+      renderLoop();
+    })();
+
+    async function loadImage(path) {
+      return await imageLoader(path);
+    }
+
+    function imageLoader(source) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = source;
+      });
+    }
+  </script>
+</body>
+</html>
