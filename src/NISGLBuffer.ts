@@ -1,5 +1,7 @@
-import GL_CONST from "./constants";
 import { NISGLProgram } from "./NISGLProgram";
+
+const GL_STATIC_DRAW = 0x88e4;
+const GL_FLOAT = 0x1406;
 
 type AttributeType = {
   name: string;
@@ -10,10 +12,10 @@ type AttributeType = {
   offset: number;
 };
 export class NISGLBuffer {
-  private _gl: WebGLRenderingContext;
-  private _buffer: WebGLBuffer;
-  private _bufferType: number;
-  private _usage: GLenum = GL_CONST.STATIC_DRAW;
+  readonly _gl: WebGLRenderingContext;
+  readonly _buffer: WebGLBuffer;
+  readonly _bufferType: number;
+  private _usage: GLenum = GL_STATIC_DRAW;
   private _attribs: AttributeType[];
   private _type: GLenum;
 
@@ -79,9 +81,9 @@ export class NISGLBuffer {
 
   /**
    * Store attribute data
-   * @param name Attibute name
+   * @param {string} name Attibute name
    * @param size Size of geometry object, Must be 1,2,3 or 4 (e.g. x,y,z object is 3)
-   * @param type Specifying the data type, default GL_CONST.FLOAT
+   * @param type Specifying the data type, default GL_FLOAT (0x1406)
    * @param normalized Normalized VBO, default false
    * @param stride default 0
    * @param offset default 0
@@ -89,7 +91,7 @@ export class NISGLBuffer {
   attrib(
     name: string,
     size: number,
-    type: GLenum = GL_CONST.FLOAT,
+    type: GLenum = GL_FLOAT,
     normalized: boolean = false,
     stride: number = 0,
     offset: number = 0

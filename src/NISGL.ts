@@ -1,9 +1,14 @@
-import GL_CONST from "./constants";
 import { NISGLProgram } from "./NISGLProgram";
 import { NISGLBuffer } from "./NISGLBuffer";
+import { NISGLTexture } from "./NISGLTexture";
+import { NISGLFrameBuffer } from "./NISGLFrameBuffer";
+
+const GL_DEPTH_BUFFER_BIT = 0x00000100;
+const GL_COLOR_BUFFER_BIT = 0x00004000;
+
 export class NISGL {
   private _message = new Error("Exeption Error");
-  private _gl: WebGLRenderingContext;
+  readonly _gl: WebGLRenderingContext;
 
   constructor(gl: WebGLRenderingContext) {
     this._gl = gl;
@@ -32,6 +37,11 @@ export class NISGL {
 
     if (program === null) {
       this.emitMessage("Program creation error");
+      return;
+    }
+
+    if ((!vertex && fragment) || (vertex && !fragment)) {
+      this.emitMessage("Missing Vertex or Fragment shader");
       return;
     }
 
@@ -71,6 +81,28 @@ export class NISGL {
   }
 
   /**
+   * Create texture instance
+   * @returns {NISGLTexture} NISGLTexture instance
+   */
+  public createTexture(): NISGLTexture {
+    const gl = this._gl;
+
+    return new NISGLTexture(gl);
+  }
+
+  /**
+   * Create frame buffer instance
+   * @param {number} width
+   * @param {number} height
+   * @return {NISGLFrameBuffer}
+   */
+  public createFrameBuffer(width?: number, height?: number): NISGLFrameBuffer {
+    const gl = this._gl;
+
+    return new NISGLFrameBuffer(gl, width, height);
+  }
+
+  /**
    * Initalize canvas
    * @param {number} r Red Color Value, default 0.0
    * @param {number} g Green Color Value, default 0.0
@@ -88,7 +120,7 @@ export class NISGL {
     const gl = this._gl;
     gl.clearColor(r, g, b, a);
     gl.clearDepth(depth);
-    gl.clear(GL_CONST.COLOR_BUFFER_BIT | GL_CONST.DEPTH_BUFFER_BIT);
+    gl.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
   /**
@@ -100,7 +132,7 @@ export class NISGL {
 
   /**
    * Emit Error Message
-   * @param {Error | string | null} error {Error|string|null} Error Message
+   * @param {Error | string | null} error Error Message
    * @return {Error} Error message
    */
   public emitMessage(error?: Error | string | null): Error {
