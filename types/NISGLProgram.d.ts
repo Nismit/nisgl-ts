@@ -1,6 +1,6 @@
 export declare class NISGLProgram {
-    private _gl;
-    private _program;
+    readonly _gl: WebGLRenderingContext;
+    readonly _program: WebGLProgram;
     private _vertex;
     private _fragment;
     private _linked;

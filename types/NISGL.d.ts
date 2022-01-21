@@ -1,8 +1,10 @@
 import { NISGLProgram } from "./NISGLProgram";
 import { NISGLBuffer } from "./NISGLBuffer";
+import { NISGLTexture } from "./NISGLTexture";
+import { NISGLFrameBuffer } from "./NISGLFrameBuffer";
 export declare class NISGL {
     private _message;
-    private _gl;
+    readonly _gl: WebGLRenderingContext;
     constructor(gl: WebGLRenderingContext);
     /**
      * Get rendering context
@@ -27,6 +29,18 @@ export declare class NISGL {
      */
     arrayBuffer(data?: BufferSource): NISGLBuffer | undefined;
     /**
+     * Create texture instance
+     * @returns {NISGLTexture} NISGLTexture instance
+     */
+    createTexture(): NISGLTexture;
+    /**
+     * Create frame buffer instance
+     * @param {number} width
+     * @param {number} height
+     * @return {NISGLFrameBuffer}
+     */
+    createFrameBuffer(width?: number, height?: number): NISGLFrameBuffer;
+    /**
      * Initalize canvas
      * @param {number} r Red Color Value, default 0.0
      * @param {number} g Green Color Value, default 0.0
@@ -41,7 +55,7 @@ export declare class NISGL {
     flush(): void;
     /**
      * Emit Error Message
-     * @param {Error | string | null} error {Error|string|null} Error Message
+     * @param {Error | string | null} error Error Message
      * @return {Error} Error message
      */
     emitMessage(error?: Error | string | null): Error;
