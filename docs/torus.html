@@ -21,7 +21,7 @@
 <body id="torus">
   <canvas id="canvas"></canvas>
   <script type="module">
-    import NISGL from "../dist/nisgl.module.js";
+    import NISGL from "./assets/nisgl.module.js";
     import { mat4 } from "https://cdn.jsdelivr.net/npm/gl-matrix@3.4.3/esm/index.js";
 
     const Vertex = `
@@ -58,7 +58,7 @@
 
     // Create buffer
     const torus_model = torus(32, 32, 1.0, 2.0);
-    console.log(torus_model);
+    // console.log(torus_model);
     const vertex_data = torus_model[0];
     const vertex_color = torus_model[1];
     const vertex_index = torus_model[2];
