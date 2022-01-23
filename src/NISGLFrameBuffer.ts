@@ -18,21 +18,36 @@ export class NISGLFrameBuffer {
     this.bind();
   }
 
+  /**
+   * Bind FrameBuffer
+   */
   public bind(): void {
     const gl = this._gl;
     gl.bindFramebuffer(gl.FRAMEBUFFER, this._frameBuffer);
   }
 
+  /**
+   * Unbind FrameBuffer
+   */
   public unbind(): void {
     const gl = this._gl;
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
   }
 
+  /**
+   * Dispose the FrameBuffer instance
+   */
   public dispose(): void {
     const gl = this._gl;
     gl.deleteFramebuffer(this._frameBuffer);
   }
 
+  /**
+   * Resize
+   * If it has attachment(s), the attachments runs resize as well
+   * @param {number} width
+   * @param {number} height
+   */
   public resize(width: number, height: number): void {
     this._width = width;
     this._height = height;
@@ -42,6 +57,9 @@ export class NISGLFrameBuffer {
     });
   }
 
+  /**
+   * Set Depth Buffer
+   */
   public attachDepth() {
     const gl = this._gl;
     const attachment = new Attachment(new NISGLRenderBuffer(gl));
@@ -49,6 +67,9 @@ export class NISGLFrameBuffer {
     this._attachments[gl.DEPTH_ATTACHMENT] = attachment;
   }
 
+  /**
+   * Set Texture Buffer
+   */
   public attachTexture() {
     const gl = this._gl;
     const texture = new NISGLTexture(gl);
@@ -58,6 +79,10 @@ export class NISGLFrameBuffer {
     this._attachments[gl.COLOR_ATTACHMENT0] = attachment;
   }
 
+  /**
+   * Get Depth Buffer
+   * @returns {WebGLRenderbuffer | null}
+   */
   public getDepth() {
     const gl = this._gl;
     const attachment = this._attachments[gl.DEPTH_ATTACHMENT];
@@ -70,6 +95,10 @@ export class NISGLFrameBuffer {
     return null;
   }
 
+  /**
+   * Get Texture Buffer
+   * @returns {NISGLTexture | null}
+   */
   public getTexture() {
     const gl = this._gl;
     const attachment = this._attachments[gl.COLOR_ATTACHMENT0];
@@ -90,6 +119,11 @@ class Attachment {
     this._target = target;
   }
 
+  /**
+   * Resize target
+   * @param {number} width
+   * @param {number} height
+   */
   public resize(width: number, height: number) {
     if (this._target instanceof NISGLTexture) {
       this._target.fromData(width, height, null);
@@ -98,6 +132,9 @@ class Attachment {
     }
   }
 
+  /**
+   * Attach Texture or RenderBuffer to FrameBuffer
+   */
   public attach() {
     const gl = this._target._gl;
 
@@ -119,6 +156,9 @@ class Attachment {
     }
   }
 
+  /**
+   * Deattach Texture or RenderBuffer to FrameBuffer
+   */
   public deattach() {
     const gl = this._target._gl;
 
@@ -140,6 +180,9 @@ class Attachment {
     }
   }
 
+  /**
+   * Dispose Target
+   */
   public dispose() {
     this._target.dispose();
   }
@@ -156,22 +199,36 @@ class NISGLRenderBuffer {
     this._renderBuffer = <WebGLRenderbuffer>gl.createRenderbuffer();
   }
 
+  /**
+   * Bind RenderBuffer
+   */
   public bind() {
     const gl = this._gl;
     gl.bindRenderbuffer(gl.RENDERBUFFER, this._renderBuffer);
   }
 
+  /**
+   * Dispose RenderBuffer
+   */
   public dispose() {
     const gl = this._gl;
     gl.deleteRenderbuffer(this._renderBuffer);
   }
 
+  /**
+   * Resize RenderBuffer
+   * @param {number} width
+   * @param {number} height
+   */
   public resize(width: number, height: number) {
     this._width = width;
     this._height = height;
     this.storage();
   }
 
+  /**
+   * Set width/height into RenderBuffer
+   */
   public storage() {
     const gl = this._gl;
     gl.renderbufferStorage(
