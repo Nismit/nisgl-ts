@@ -20,7 +20,7 @@
 <body id="triangle">
   <canvas id="canvas"></canvas>
   <script type="module">
-    import NISGL from "../dist/nisgl.module.js";
+    import NISGL from "./assets/nisgl.module.js";
     import { mat4 } from "https://cdn.jsdelivr.net/npm/gl-matrix@3.4.3/esm/index.js";
 
     const Vertex = `
@@ -78,10 +78,6 @@
       // R,G,B,A
       // prettier-ignore
       const vertex_color = [
-        // 1.0, 0.0, 0.0, 1.0,
-        // 0.0, 1.0, 0.0, 1.0,
-        // 0.0, 0.0, 1.0, 1.0,
-        // 1.0, 1.0, 1.0, 1.0
         1.0, 1.0, 1.0, 1.0,
         1.0, 1.0, 1.0, 1.0,
         1.0, 1.0, 1.0, 1.0,
@@ -128,16 +124,6 @@
       mat4.multiply(tmpMatrix, pMatrix, vMatrix);
 
       // Texture
-      // let texture;
-      // gl.activeTexture(gl.TEXTURE1);
-      // const image = await imageLoader('/docs/assets/128.jpg');
-      // const tex = gl.createTexture();
-      // gl.bindTexture(gl.TEXTURE_2D, tex);
-      // gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-      // gl.generateMipmap(gl.TEXTURE_2D);
-      // gl.bindTexture(gl.TEXTURE_2D, null);
-      // texture = tex;
-
       const textureInstance = nisgl.createTexture();
       const image = await imageLoader('/docs/assets/128.jpg');
       textureInstance.fromImage(image);
