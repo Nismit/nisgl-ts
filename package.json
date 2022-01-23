@@ -1,6 +1,6 @@
 {
   "name": "nisgl-ts",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "WebGL Base Library with TypeScript",
   "main": "./dist/nisgl.js",
   "module": "./dist/nisgl.module.js",
