@@ -125,12 +125,12 @@
 
       // Texture
       const textureInstance = nisgl.createTexture();
-      const image = await imageLoader('/docs/assets/128.jpg');
+      const image = await imageLoader('./assets/128.jpg');
       textureInstance.fromImage(image);
       textureInstance.bind(1);
 
       const textureInstance2 = nisgl.createTexture();
-      const image2 = await imageLoader('/docs/assets/32.jpg');
+      const image2 = await imageLoader('./assets/32.jpg');
       textureInstance2.fromImage(image2);
       textureInstance2.bind(2);
 
