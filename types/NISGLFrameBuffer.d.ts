@@ -32,8 +32,9 @@ export declare class NISGLFrameBuffer {
     attachDepth(): void;
     /**
      * Set Texture Buffer
+     * @param {GLenum | undefined} format
      */
-    attachTexture(): void;
+    attachTexture(format?: GLenum, near?: boolean): void;
     /**
      * Get Depth Buffer
      * @returns {WebGLRenderbuffer | null}
