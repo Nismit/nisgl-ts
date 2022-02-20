@@ -69,11 +69,15 @@ export class NISGLFrameBuffer {
 
   /**
    * Set Texture Buffer
+   * @param {GLenum | undefined} format
    */
-  public attachTexture() {
+  public attachTexture(format?: GLenum, near?: boolean) {
     const gl = this._gl;
-    const texture = new NISGLTexture(gl);
+    const texture = new NISGLTexture(gl, format);
     texture.fromData(this._width, this._height, null);
+    if (near) {
+      texture.setFilter(false, false, false);
+    }
     const attachment = new Attachment(texture);
     attachment.attach();
     this._attachments[gl.COLOR_ATTACHMENT0] = attachment;
